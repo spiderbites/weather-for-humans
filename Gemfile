@@ -11,6 +11,9 @@ gem 'sinatra-activerecord'
 gem 'puma'
 gem 'tux'
 
+# wrapper for open weather
+gem 'open-weather'
+
 group :development, :test do
   gem 'pry'
   gem 'shotgun'
