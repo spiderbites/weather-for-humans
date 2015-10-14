@@ -4,6 +4,7 @@ require ::File.expand_path('../config/environment', __FILE__)
 
 Rake::Task["db:create"].clear
 Rake::Task["db:drop"].clear
+Rake::Task["db:seed"].clear
 
 # NOTE: Assumes SQLite3 DB
 desc "create the database"
@@ -14,6 +15,12 @@ end
 desc "drop the database"
 task "db:drop" do
   rm_f 'db/db.sqlite3'
+end
+
+desc "seed the database"
+task "db:seed" do
+  exec 'sqlite3 db/db.sqlite3 < db/seed.sql'
+  puts 'database populated should be populated if you don\'t see an error message.'
 end
 
 task 'db:create_migration' do
