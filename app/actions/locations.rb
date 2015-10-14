@@ -18,24 +18,34 @@ class Weather
     OpenWeather::Current.city(city_country, OPEN_WEATHER_OPTIONS)
   end
 
+  def get_weather
+    if by_geocode?
+      get_current_weather_geocode
+    elsif by_city?
+      get_current_weather_city_country
+    end
+  end
+
+  private
+    def by_geocode?
+      lat && long
+    end
+
+    def by_city?
+      !city_country.nil?
+    end
 end
 
 require 'open_weather'
 
 get '/location' do
-  if params[:lat] && params[:long]
-    @weather = Weather.new(params)
-    @current_weather = @weather.get_current_weather_geocode
-  end
+  @weather = Weather.new(params)
 
   erb :location
 end
 
 post '/location' do
-  if params[:city_country]
-    @weather = Weather.new(params)
-    @current_weather = @weather.get_current_weather_city_country
-  end
+  @weather = Weather.new(params)
 
   erb :location
 end
