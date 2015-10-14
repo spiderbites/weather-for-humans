@@ -1,0 +1,84 @@
+Body part
+- Head
+-- toque / winter hat
+-- baseball cap       
+-- sun hat
+-- bandana
+
+Ears
+- earmuffs
+
+Eyes
+- sunglasses
+
+Neck
+- scarf / shawl
+
+Body - first layer
+- t-shirt
+- tank top
+- undershirt
+
+Body - second layer
+- longsleeve shirt
+- button-up shirt
+- blouse
+- dress
+
+Body - third layer
+- sweater
+- hooded sweater
+- cardigan
+
+Body - fourth layer
+- Light jacket
+- raincoat
+- parka / heavy jacket
+- windbreaker
+
+Hands
+- light gloves
+- heavy gloves
+
+Legs
+- shorts
+- skirt
+- long pants
+- tights
+- snowpants
+
+Feet
+- boots
+- sneakers
+- sandals
+
+
+
+def head_piece(temp_data, profile=nil)
+  return head_piece_to_wear
+
+
+
+
+Clothing
+- body part :string
+- temperature :numeric range
+- precipitation :
+
+
+Winter hat
+- body_part: head
+- temperature: -1000 ..  5 C
+- precipitation:  nil
+
+snowpants
+- temperature: -1000 .. 0C
+- precipitation: 50% .. 100%
+- age: 0-10
+
+for each body part:
+  find_weather_appropriate_clothing(temp profile, body part)
+
+
+
+activity table

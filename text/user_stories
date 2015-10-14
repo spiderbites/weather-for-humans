@@ -1,0 +1,72 @@
+Profile: user
+
+-- basic
+I can supply my location
+I am shown the clothes I should wear today
+
+-- Location
+When I input my location
+I am shown the clothes I should wear today
+
+A user can specify their location
+By entering a zip / postal code
+
+A user can specify their location
+By entering an address
+
+A user can specify their location
+By getting a location from their device
+
+-- Profile
+User can create a profile
+To get more specific information
+
+-- Categories
+If I specify my gender
+Then I am shown gender-appropriate clothes
+
+If I specify my age
+Then I am shown age-appropriate clothes
+
+-- Timespan 
+A user can see what clothes I need for the day (8am-6pm)
+A user can see what clothes I need for an hour
+A user can see what clothes I need for a morning
+A user can see what clothes I need for an evening
+A user can see what clothes I need for overnight
+
+-- Travel  
+A user input a series of locations over a period of time
+And be told what I need to pack
+
+-- Personality
+I can specify my personality type as anxious
+And then I'm always told to bring an umbrella
+
+I can specify my personality type as carefree
+And then I'm only told to bring an umbrella if it is already raining
+
+-- Activity
+I can specify I travel by foot/car/bus
+And I am told what clothes to wear
+
+I can specify that I am going for a run/walk/hike
+And I am told what clothes to wear
+
+
+-- Examples
+If it is very sunny and very hot
+I will be told to
+- wear sunglasses
+- wear a hat
+- wear sandals
+- wear shorts / skirt
+- wear tshirt / tank top
+
+If it is cold and rainy
+I will be told to
+- bring an umbrella
+- wear a raincoat
+- wear boots or waterproof shoes
+- wear long pants
+- wear a sweater

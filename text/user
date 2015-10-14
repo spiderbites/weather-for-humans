@@ -1,0 +1,7 @@
+User
+- id
+- email
+- password
+- age
+- gender
+- home_location
