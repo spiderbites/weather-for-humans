@@ -10,3 +10,4 @@ Brought to you by Lighthouse Labs
 3. Visit `http://localhost:3000/` in your browser
 4. bundle exec rspec spec/
 5. cd public THEN sass --watch scss:css
+6. rake db:seed to populate database
