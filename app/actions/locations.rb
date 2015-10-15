@@ -1,9 +1,9 @@
 helpers do
   def get_clothing
-    body_parts = Wearables.get_body_parts
+    body_parts = Wearable.get_body_parts
 
     clothes = body_parts.reduce({}) do |a, e|
-      a[e] = Wearables.get_appropriate_clothing(e, { gender: "M" }, @weather)
+      a[e] = Wearable.get_appropriate_clothing(e, { gender: "U" }, @weather)
       a
     end
   end
