@@ -7,6 +7,22 @@ header {
   font-family: arial;
   color: gray; }
 
+
+            /* Added by Kevin for demonstration purposes only */
+            .clothing {
+              width: 250px;
+              height: 250px;
+            }
+
+            /* Added by Kevin for demonstration purposes only */
+            .body_part {
+              margin: auto;
+              width: 25%;
+            }
+
+
+
+
 /*  SECTIONS  */
 .section {
   clear: both;
