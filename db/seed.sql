@@ -2,7 +2,6 @@
 
 INSERT INTO "wearables" (clothing, body_part, min_temp, max_temp, gender)
           SELECT 'toque' AS 'clothing','head' AS 'body_part',-274 AS 'min_temp', 5 AS 'max_temp','U' AS 'gender'
-UNION ALL SELECT 'ear-muffs','ears',-274,5,'U'
 UNION ALL SELECT 'scarf','neck',-274,5,'U'
 UNION ALL SELECT 'parka','body',-274,5,'U'
 UNION ALL SELECT 'light-jacket','body',6,10,'U'

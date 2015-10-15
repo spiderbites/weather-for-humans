@@ -1,0 +1,4 @@
+<% Dir.chdir("./public/icons") %>
+<% Dir["*.svg"].each do |file| %>
+<%= "<img src='/icons/" + file + "' width=150 height=150>" %>
+<% end %>
