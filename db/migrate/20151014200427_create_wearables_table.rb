@@ -1,9 +1,10 @@
-class CreateWearablesTable < ActiveRecord::Migration
+class CreateWearableTable < ActiveRecord::Migration
   def change
-    create_table :wearables do |t|
+    create_table :Wearable do |t|
       t.string :clothing
       t.string :body_part
-      t.string :temperature
+      t.integer :min_temp
+      t.integer :max_temp
       t.string :gender
     end
   end
