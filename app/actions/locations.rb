@@ -20,7 +20,6 @@ end
 get '/location' do
   @weather = Weather.new(params)
   @clothes = get_clothing
-
   erb :location
 end
 
