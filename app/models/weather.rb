@@ -11,7 +11,6 @@ class Weather
     @lat = config[:lat]
     @long = config[:long]
     @city_country = config[:city_country]
-    puts config[:city_country]
   end
 
   def get_weather
