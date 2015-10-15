@@ -9,6 +9,13 @@ helpers do
   end
 end
 
+get '/location/:city_country' do
+  @weather = Weather.new(params)
+  @clothes = get_clothing
+
+  erb :location
+end
+
 get '/location' do
   @weather = Weather.new(params)
   @clothes = get_clothing
@@ -17,8 +24,5 @@ get '/location' do
 end
 
 post '/location' do
-  @weather = Weather.new(params)
-  @clothes = get_clothing
-
-  erb :location
+  redirect "location/#{params[:city_country]}"
 end
