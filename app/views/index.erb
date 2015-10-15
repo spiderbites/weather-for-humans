@@ -1,11 +1,19 @@
 
-<header>
-<h1>Where are you?</h1>
-<p><a href="#" id="gps_link">Click here to use your device location</a></p>
-<p>or</p>
-</header>
+<div class="container">
+  <header>
+    <h1>Where are you?</h1>
+    <p><a href="#" id="gps_link">Click here to use your device location</a></p>
+    <p>or</p>
+  </header>
 
-<form class='search-bar' role='search' method='post' action='/location'>
-  <input type="search" placeholder="Enter City, Country or Postal Code" name="city_country">
-</form>
-
+  <div class="row">
+    <div class="three columns">.</div>
+    <div class="six columns">
+      <form id="search-bar"> 
+        <label for="LocationInput">City, Country or Postal Code</label>
+        <input class="u-full-width" type="search" placeholder="Enter location here" >
+      </form>
+    </div>
+    <div class="three columns"></div>
+  </div>
+</div>

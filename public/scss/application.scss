@@ -1,80 +1,8 @@
-@import "bourbon/bourbon";
-/*@import "home";
-@import "users";*/
-
+@import "skeleton-css/skeleton.css"; 
 
 header {
-  height: 300px;
+  height: 180px;
   text-align: center;
-  vertical-align: baseline;
+  padding-top: 25%;
   font-family: arial;
-  color: gray;
 }
-
-/*  SECTIONS  */
-.section {
-  clear: both;
-  padding: 0px;
-  margin: 0px;
-}
-
-/*  COLUMN SETUP  */
-.col {
-  display: block;
-  float:left;
-  margin: 1% 0 1% 1.6%;
-}
-.col:first-child { margin-left: 0; }
-
-/*  GROUPING  */
-.group:before,
-.group:after { content:""; display:table; }
-.group:after { clear:both;}
-.group { zoom:1; /* For IE 6/7 */ }
-/*  GRID OF THREE  */
-.span_3_of_3 { width: 100%; }
-.span_2_of_3 { width: 66.13%; }
-.span_1_of_3 { width: 32.26%; }
-
-/*  GO FULL WIDTH BELOW 480 PIXELS */
-@media only screen and (max-width: 480px) {
-  .col {  margin: 1% 0 1% 0%; }
-  .span_3_of_3, .span_2_of_3, .span_1_of_3 { width: 100%; }
-}
-
-form.search-bar {  
-  ///////////////////////////////////////////////////////////////////////////////////
-  $base-border-color: gainsboro !default;
-  $base-border-radius: 3px !default;
-  $base-line-height: 1.5em !default;
-  $base-spacing: 20px !default;
-  $action-color: #4A4A4A !default;
-  $dark-gray: #333 !default;
-  //////////////////////////////////////////////////////////////////////////////////
-
-  $search-bar-border-color: $base-border-color;
-  $search-bar-border: 1px solid $search-bar-border-color;
-  $search-bar-background: lighten($search-bar-border-color, 10%);
-
-  position: relative;
-  text-align: center;
-
-  input[type=search] {
-    @include appearance(none);
-    @include box-sizing(border-box);
-    @include transition(border-color);
-    background-color: white;
-    border-radius: $base-border-radius;
-    border-radius: $base-border-radius;
-    border: 1px solid $base-border-color;
-    display: block;
-    font-size: 1em;
-    font-style: italic;
-    margin-left: 20%;
-    padding: ($base-spacing / 3) ($base-spacing / 3);
-    position: relative;
-    width: 60%;
-  }
-
-}
-
