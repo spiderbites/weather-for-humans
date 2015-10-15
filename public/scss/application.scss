@@ -1,3 +1,48 @@
-.dummy {
-  width: 500px;
+@import "bourbon/bourbon";
+/*@import "home";
+@import "users";*/
+
+
+header {
+  height: 30%;
+  text-align: center;
+  vertical-align: bottom;
+  font-family: arial;
 }
+
+form.search-bar {  
+  ///////////////////////////////////////////////////////////////////////////////////
+  $base-border-color: gainsboro !default;
+  $base-border-radius: 3px !default;
+  $base-line-height: 1.5em !default;
+  $base-spacing: 20px !default;
+  $action-color: #4A4A4A !default;
+  $dark-gray: #333 !default;
+  //////////////////////////////////////////////////////////////////////////////////
+
+  $search-bar-border-color: $base-border-color;
+  $search-bar-border: 1px solid $search-bar-border-color;
+  $search-bar-background: lighten($search-bar-border-color, 10%);
+
+  position: relative;
+  text-align: center;
+
+  input[type=search] {
+    @include appearance(none);
+    @include box-sizing(border-box);
+    @include transition(border-color);
+    background-color: white;
+    border-radius: $base-border-radius;
+    border-radius: $base-border-radius;
+    border: 1px solid $base-border-color;
+    display: block;
+    font-size: 1em;
+    font-style: italic;
+    margin-left: 20%;
+    padding: ($base-spacing / 3) ($base-spacing / 3);
+    position: relative;
+    width: 60%;
+  }
+
+}
+

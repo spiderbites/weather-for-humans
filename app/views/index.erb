@@ -1,5 +1,13 @@
-<p>Where are you?</p>
-<form method='post' action='/location'>
-  <input type="text" name="city_country"><input type='submit' value='go!'>
+
+<header>
+<h1>Where are you?</h1>
+<p><a href="#" id="gps_link">Click here to use your device location</a></p>
+<p>or</p>
+</header>
+
+
+
+<form class='search-bar' role='search' method='post' action='/location'>
+  <input type="search" placeholder="Enter City, Country or Postal Code" name="city_country">
 </form>
-<p><a href="#" id="gps_link">or click here to tell us your location</a></p>
+
