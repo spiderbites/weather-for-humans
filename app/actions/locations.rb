@@ -3,7 +3,8 @@ helpers do
     body_parts = Wearable.get_body_parts
 
     clothes = body_parts.reduce({}) do |a, e|
-      a[e] = Wearable.get_appropriate_clothing(e, { gender: "U" }, @weather)
+      appropriate_clothes = Wearable.get_appropriate_clothing(e, { gender: "M" }, @weather)
+      a[e] = appropriate_clothes unless appropriate_clothes.empty?
       a
     end
   end

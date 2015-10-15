@@ -1,22 +1,29 @@
-<%= @clothes %>
-
 <header>
-  
   <!-- logo, nav, weather report goes here -->
+  <p style="font-size: 75px;">Our amazing logo, nav and weather report</p>
 </header>
 
 <div class="section group">
-  <div class="col span_1_of_3">
-  This is column 1
-  </div>
-  <div class="col span_1_of_3">
-  This is column 2
-  </div>
-  <div class="col span_1_of_3">
-  This is column 3
-  </div>
+  <% size = 3; @clothes.values.size %>
+  <% @clothes.values.each do |item| %>
+    <div class="col span_1_of_<%=size%>">
+      <img class='clothing' src='/images/icons/<%=item[0]%>.svg' alt='<%=item[0]%>.svg'/>
+    </div>
+  <% end %>
 </div>
+
+        <!-- For demonstration purposes only -->
+        <hr/>
+        <p class="body_part" style="font-size: 75px;"><strong>Alternative Display</strong></p>
+        <% @clothes.keys.each do |key| %>
+          <% item = @clothes[key][0] %>
+          <p><%= item %></p>
+          <div class="body_part" id="<%=key%>">
+            <img class='clothing' src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'/>
+          </div>
+        <% end %>
 
 <footer>
   <!-- creds go here? extra options?  -->
+  <p style="font-size: 150px;"><strong>Footer</strong></p>
 </footer>
