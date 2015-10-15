@@ -8,3 +8,5 @@
 **/.sass-cache/**
 public/assets
 city.list.json
+*.css.map
+.keep
