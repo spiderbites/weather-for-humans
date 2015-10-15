@@ -21,8 +21,8 @@ class Weather
     end
   end
 
-  def get_temperature
-    get_weather['main']['temp']
+  def temperature
+    get_weather['main']['temp'].to_i
   end
 
   private
