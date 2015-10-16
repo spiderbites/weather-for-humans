@@ -26,3 +26,7 @@ end
 post '/location' do
   redirect "location/#{params[:city_country]}"
 end
+
+get '/experiment_kevin' do
+  erb :kevin
+end

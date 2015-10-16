@@ -1,7 +1,4 @@
 <div class="container">
-  <%= @clothes %>
- 
-
   <div class="row">
     <div class="one column"></div>
     <div class="one column"></div>
@@ -16,7 +13,7 @@
 </header>
 
 <div class="section group">
-  <% size = 3; @clothes.values.size %>
+  <% @clothes.values.size %>
   <% @clothes.values.each do |item| %>
     <div class="col span_1_of_<%=size%>">
       <img class='clothing' src='/images/icons/<%=item[0]%>.svg' alt='<%=item[0]%>.svg'/>
