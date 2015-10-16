@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <!--
     normalize.css removes cross-browser differences in defaults, e.g.,
     differences in how form elements appear between Firefox and IE
     See: http://necolas.github.com/normalize.css/
   -->
   <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
   <!--
     application.css is where you put your styles
   -->
   <link rel="stylesheet" href="/css/application.css">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Bad+Script' rel='stylesheet' type='text/css'>
+ 
+  <!-- BigVideo -->
+  <link rel="stylesheet" href="/css/bigvideo.css">
   
   <!-- FOR NEW AUTOCOMPLETE -->
+  <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/flick/jquery-ui.css" />  
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/flick/jquery-ui.css" />
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   <!-- END NEW AUTOCOMPLETE -->
 
+
+
+  <!-- BigVideo Dependencies -->
+  <script src="/javascript/jquery.imagesloaded.min.js"></script>
+  <script src="//vjs.zencdn.net/4.3/video.js"></script>
+
+  <!-- BigVideo -->
+  <script src="/javascript/bigvideo.js"></script>
+
   <script src="/javascript/application.js"></script>
-
-
-    
-
-  <title></title>
+  <title>Weather for Humans</title>
 </head>
 <body>
   <%= yield %>

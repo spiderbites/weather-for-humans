@@ -1,19 +1,30 @@
-<div class="container">
-  <header>
-    <h1>Where are you?</h1>
-    <p><a href="#" id="gps_link">Click here to use your device location</a></p>
-    <p>or</p>
-  </header>
+  <script>
+    var BV;
+    $(function() {
+      // initialize BigVideo
+      BV = new $.BigVideo();
+      BV.init();
+      BV.show('/vid/clouds.mp4',{ambient:true});
+    });
+  </script>
 
-  <div class="row">
-    <div class="three columns">.</div>
-    <div class="six columns">
+
+<div class="container">
+
+  <section class="main-header">
+    <h2 class="title">Weather for &nbsp;<span id="humans">Humans</span></h2>
+  </section>
+
+    <div class="twelve columns">    
 
       <form id="search-bar" action="/location" method="post" enctype="multipart/form-data">
-        <label for="LocationInput">City, Country or Postal Code</label>
+        <label for="LocationInput">Tell us where you are...</label>      
         <input class="u-full-width" type="text" name="city_country" placeholder="e.g. Toronto, Canada" id="f_elem_city"/>
+        <p><a href="#" id="gps_link">...or click here to use your device location</a></p>
+
       </form>
+
     </div>
-    <div class="three columns"></div>
+
   </div>
 </div>

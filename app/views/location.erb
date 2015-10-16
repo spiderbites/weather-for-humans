@@ -1,39 +1,79 @@
 <div class="container">
-  <div class="row">
-    <div class="one column"></div>
-    <div class="one column"></div>
-    <div class="one column"></div>
-    <div class="one column"></div>
-  </div>
-</div>
+  <table>
+  <tbody>
+    <tr> 
+      <td></td><td><img class="arrow" src="/images/icons/arrow-up-with-split.svg"/></td><td></td>
+    </tr>
+    <tr> 
+      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td>Friday<br>11:30am</td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
+    </tr>
+    <tr>
+      <td></td><td><img class="arrow" src="/images/icons/arrow-down-with-split.svg"/></td><td></td>
+    </tr>
+    </tbody>
+  </table>
 
-<header>
-  <!-- logo, nav, weather report goes here -->
-  <p style="font-size: 75px;">Our amazing logo, nav and weather report</p>
-</header>
-
-<div class="section group">
-  <% @clothes.values.size %>
-  <% @clothes.values.each do |item| %>
-    <div class="col span_1_of_<%=size%>">
-      <img class='clothing' src='/images/icons/<%=item[0]%>.svg' alt='<%=item[0]%>.svg'/>
+  <section>
+    
+    <div class="row">
+      <div class="twelve column u-full-width timetext">Right now, you need...</div>      
     </div>
-  <% end %>
-</div>
 
-        <!-- For demonstration purposes only -->
-        <hr/>
-        <p class="body_part" style="font-size: 75px;"><strong>Alternative Display</strong></p>
-        <% @clothes.keys.each do |key| %>
-          <% item = @clothes[key][0] %>
-          <p><%= item %></p>
-          <div class="body_part" id="<%=key%>">
-            <img class='clothing' src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'/>
-          </div>
+
+    <div class="row">
+    
+    <% clothes_size = @clothes.size %>
+    <% clothing = @clothes.map {|body_part, items| items[0] } %>
+    <% if clothes_size == 2 %>
+
+      <% clothing.each do |item| %>
+        <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
+      <% end %>
+      </div> <!-- end row -->
+
+    <% elsif clothes_size == 4 %>
+      <% clothing.each do |item| %>
+        <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
+      <% end %>
+
+      </div> <!-- end row -->
+
+    <% elsif [3, 5, 6].include?(clothes_size) %>
+
+      <% clothing[0..2].each do |item| %>
+          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
+      <% end %>
+
+      </div> <!-- end row -->
+
+      <% if clothes_size == 5 %>
+
+        <div class="row">
+
+        <% clothing[3..4].each do |item| %>
+          <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
         <% end %>
 
-<footer>
-  <!-- creds go here? extra options?  -->
-  <p style="font-size: 150px;"><strong>Footer</strong></p>
-</footer>
+        </div> <!-- end row -->
 
+      <% elsif clothes_size == 6 %>
+        
+        <div class="row">
+
+        <% clothing[3..5].each do |item| %>
+          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
+        <% end %>
+        
+        </div> <!-- end row -->
+      <% end %>
+    <% end %>
+
+  </div>
+</section>
+    
+<div class="row">
+  <div class="twelve column u-full-width footer"></div>
+</div>
+</div>
+
+<%= @clothes %>
