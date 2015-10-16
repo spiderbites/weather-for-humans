@@ -1,0 +1,99 @@
+@import url(skeleton-css/skeleton.css);
+header {
+  height: 180px;
+  text-align: center;
+  padding-top: 25%;
+  font-family: arial;
+  color: gray; }
+
+
+
+
+            /* Added by Kevin for demonstration purposes only */
+            .clothing {
+              width: 250px;
+              height: 250px;
+            }
+
+            /* Added by Kevin for demonstration purposes only */
+            .body_part {
+              margin: auto;
+              width: 25%;
+            }
+
+
+
+
+/*  SECTIONS  */
+.section {
+  clear: both;
+  padding: 0px;
+  margin: 0px; }
+
+/*  COLUMN SETUP  */
+.col {
+  display: block;
+  float: left;
+  margin: 1% 0 1% 1.6%; }
+
+.col:first-child {
+  margin-left: 0; }
+
+/*  GROUPING  */
+.group:before,
+.group:after {
+  content: "";
+  display: table; }
+
+.group:after {
+  clear: both; }
+
+.group {
+  zoom: 1;
+  /* For IE 6/7 */ }
+
+/*  GRID OF THREE  */
+.span_3_of_3 {
+  width: 100%; }
+
+.span_2_of_3 {
+  width: 66.13%; }
+
+.span_1_of_3 {
+  width: 32.26%; }
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 480px) {
+  .col {
+    margin: 1% 0 1% 0%; }
+
+  .span_3_of_3, .span_2_of_3, .span_1_of_3 {
+    width: 100%; } }
+form.search-bar {
+  position: relative;
+  text-align: center; }
+  form.search-bar input[type=search] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: border-color;
+    -moz-transition: border-color;
+    transition: border-color;
+    background-color: white;
+    border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid gainsboro;
+    display: block;
+    font-size: 1em;
+    font-style: italic;
+    margin-left: 20%;
+    padding: 6.66667px 6.66667px;
+    position: relative;
+    width: 60%; }
+
+/*# sourceMappingURL=application.css.map */

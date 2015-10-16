@@ -1,9 +1,12 @@
-@import "skeleton-css/skeleton.css"; 
-
-header {
-  height: 180px;
-  text-align: center;
-  padding-top: 25%;
-  font-family: arial;
+.container {
+  max-width: 800px; }
+.header {
+  margin-top: 6rem;
+  text-align: center; }
+.columns {
+   text-align: center;
 }
 
+#humans {
+  font-family: 'Bad Script', cursive;
+}
