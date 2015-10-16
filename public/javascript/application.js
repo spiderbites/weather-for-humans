@@ -40,26 +40,91 @@ $(document).ready(function() {
     jQuery("#f_elem_city").autocomplete("option", "delay", 100);
   });
 
-  var d = new Date();
-  var weekday = new Array(7);
-  weekday[0]=  "Sunday";
-  weekday[1] = "Monday";
-  weekday[2] = "Tuesday";
-  weekday[3] = "Wednesday";
-  weekday[4] = "Thursday";
-  weekday[5] = "Friday";
-  weekday[6] = "Saturday";
 
-  var n = weekday[d.getDay()];
+  (function() {
+    var counters = {
+      day: 0,
+      cycle: 0,
+      max: {
+        days: 3,
+        cycles: 7
+      }
+    }
 
-  $('.day').text(n);
+    var currentDay = function() {
+      return counters.day;
+    };
 
-  var time = new Date();
-  $('.time').text(time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds());
+    var currentCycle = function() {
+      return counters.cycle;
+    };
 
-  var temperature = JSON.parse($("div[data-temperature]").attr("data-temperature"));
+    var nextDay = function() {
+      counters.day++;
+      if (counters.day === counters.max.days) {
+        counters.day = 0;
+      };
+      return counters.day;
+    };
 
-  $('div.temperature').text(temperature.today[0]);
-  console.log(temperature, temperature.today[0].toString());
+    var nextCycle = function() {
+      counters.cycle++;
+      if (counters.cycle === counters.max.cycles) {
+        counters.cycle = 0;
+      };
+      return counters.cycle;
+    }
+
+    var init = function(config) {
+      counters.max = config;
+    }
+
+    window.M = {
+      init: init,
+      currentDay: currentDay,
+      currentCycle: currentCycle,
+      nextDay: nextDay,
+      nextCycle: nextCycle,
+    };
+  })();
+
+  (function(){
+    var data;
+
+    var update = function(day, cycle) {
+      $('.day').text(data[day].day);
+      $('.time').text(data[day].cycle[cycle].time);
+      $('.temperature').text(data[day].cycle[cycle].temperature);
+      $('.clothes').text(data[day].cycle[cycle].clothes[0]);
+    }
+
+    var init = function(d) {
+      data = d;
+    }
+
+    window.V = {
+      init: init,
+      update: update
+    };
+  })();
+
+  $.get("/data", function(data) {
+    M.init({days: data.length, cycles: data[0].cycle.length});
+
+    V.init(data);
+    V.update(0, 0);
+
+    $('.day').click(function(){
+      M.nextDay();
+      V.update(M.currentDay(), M.currentCycle());
+    });
+
+    $('.time').click(function(){
+      M.nextCycle();
+      V.update(M.currentDay(), M.currentCycle());
+    });
+
+
+  })
 });
 
