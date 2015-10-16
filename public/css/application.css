@@ -1,14 +1,114 @@
 .container {
   max-width: 800px; }
 
-.header {
+.main-header {
   margin-top: 6rem;
   text-align: center; }
 
-.columns {
-  text-align: center; }
+.header {
+  height:100px;
+  background-color:rgba(0,255,0,.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
 #humans {
   font-family: 'Bad Script', cursive; }
 
-/*# sourceMappingURL=application.css.map */
+
+table {
+  margin: 0px auto;
+}
+
+td {
+  text-align: center;
+  border-bottom: none;
+}
+
+td .leftarrow {
+  float: right;
+}
+
+td .rightarrow {
+  float: left;
+}
+
+.column .arrow {
+  margin-top: 50%;
+  margin-bottom: 50%;
+}
+
+img {
+  display:block;
+  margin:auto;
+  height: 100%;
+}
+
+.column {
+  border-radius:3px;
+}
+
+.columns {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.box {
+  box-shadow:0 1px 2px #aaa;
+  height:200px;
+  /*background-color:rgba(255,0,0,.3);*/
+  padding:15px;
+}
+
+.header img {
+  display: block;
+  margin: auto;
+}
+
+.footer {
+  height:50px;
+  background-color:rgba(0,255,0,.3);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+section {
+  margin: 10px 0;
+}
+
+.column img {
+  display: block;
+  height: 100%;
+  vertical-align: middle;
+  margin: auto;
+}
+
+.timetext {
+  text-align:center;
+  margin: 10px 0;
+}
+
+.card {
+  /*display: inline-block;*/
+  padding:1.5rem;
+  box-shadow:0 1px 2px #aaa;
+  background:white;
+  margin:0 1rem 1rem;
+  border-radius:3px;
+  width: 15rem;
+  height: 15rem;
+
+}
+
+.fixed {
+  display: inline-block;
+  position: fixed;
+  height: 13rem;
+  text-align: center;
+  width: 100%;
+  clear: all;
+  right: 1rem;
+  padding: 1rem 1rem 1rem 1rem;
+}
