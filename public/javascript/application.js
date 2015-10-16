@@ -51,6 +51,8 @@ $(document).ready(function() {
       }
     }
 
+    var diurnalCycles;
+
     var currentDay = function() {
       return counters.day;
     };
@@ -75,55 +77,80 @@ $(document).ready(function() {
       return counters.cycle;
     }
 
-    var init = function(config) {
-      counters.max = config;
+    var init = function(data) {
+      diurnalCycles = data;
+      counters.max = { days: data.length,
+                       cycles: data[0].cycle.length };
     }
+
+    var getDay = function() {
+      return diurnalCycles[currentDay()].day;
+    }
+
+    var getTime = function() {
+      return diurnalCycles[currentDay()].cycle[currentCycle()].time
+    }
+
+    var getTemperature = function() {
+      return diurnalCycles[currentDay()].cycle[currentCycle()].temperature
+    }
+
+    var getClothes = function() {
+      return diurnalCycles[currentDay()].cycle[currentCycle()].clothes
+    }
+
 
     window.M = {
       init: init,
-      currentDay: currentDay,
-      currentCycle: currentCycle,
+
+      getDay: getDay,
       nextDay: nextDay,
+      getTime: getTime,
       nextCycle: nextCycle,
+      getTemperature: getTemperature,
+      getClothes: getClothes
     };
   })();
 
   (function(){
-    var data;
 
-    var update = function(day, cycle) {
-      $('.day').text(data[day].day);
-      $('.time').text(data[day].cycle[cycle].time);
-      $('.temperature').text(data[day].cycle[cycle].temperature);
-      $('.clothes').text(data[day].cycle[cycle].clothes[0]);
+    var update = function() {
+      $('.day').text(M.getDay());
+      $('.time').text(M.getTime());
+      $('.temperature').text(M.getTemperature());
+      $('.clothes').text(M.getClothes()[0]);
+      displayTiles();
     }
 
-    var init = function(d) {
-      data = d;
+    var displayTiles = function() {
+      clothes = M.getClothes();
+      console.log(clothes);
+      $('.tiles').remove();
+      $('body').append('<div class=tiles></div>');
+      clothes.forEach(function(tile) {
+        $('.tiles').append("<div class='clothing'> <img src='/images/icons/"+tile+".svg'/> </div>");
+      });
     }
 
     window.V = {
-      init: init,
       update: update
     };
   })();
 
   $.get("/data", function(data) {
-    M.init({days: data.length, cycles: data[0].cycle.length});
+    M.init(data);
 
-    V.init(data);
-    V.update(0, 0);
+    V.update();
 
     $('.day').click(function(){
       M.nextDay();
-      V.update(M.currentDay(), M.currentCycle());
+      V.update();
     });
 
     $('.time').click(function(){
       M.nextCycle();
-      V.update(M.currentDay(), M.currentCycle());
+      V.update();
     });
-
 
   })
 });
