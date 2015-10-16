@@ -17,6 +17,7 @@ gem 'open-weather'
 
 gem 'rack'
 gem 'sass'
+gem 'json'
 
 group :development, :test do
   gem 'rspec'

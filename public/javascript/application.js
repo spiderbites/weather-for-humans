@@ -39,5 +39,27 @@ $(document).ready(function() {
     });
     jQuery("#f_elem_city").autocomplete("option", "delay", 100);
   });
+
+  var d = new Date();
+  var weekday = new Array(7);
+  weekday[0]=  "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
+
+  var n = weekday[d.getDay()];
+
+  $('.day').text(n);
+
+  var time = new Date();
+  $('.time').text(time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds());
+
+  var temperature = JSON.parse($("div[data-temperature]").attr("data-temperature"));
+
+  $('div.temperature').text(temperature.today[0]);
+  console.log(temperature, temperature.today[0].toString());
 });
 

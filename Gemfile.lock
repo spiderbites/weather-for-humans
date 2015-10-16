@@ -95,6 +95,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  json
   open-weather
   pry
   pry-nav

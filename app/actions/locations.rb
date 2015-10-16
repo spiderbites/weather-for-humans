@@ -1,3 +1,5 @@
+require 'json'
+
 helpers do
   def get_clothing
     body_parts = Wearable.get_body_parts
@@ -28,5 +30,6 @@ post '/location' do
 end
 
 get '/experiment_kevin' do
+  @temperature = {today: [1,2,3,4], tomorrow: [1,5,7,8]}.to_json
   erb :kevin
 end
