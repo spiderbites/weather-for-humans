@@ -68,7 +68,7 @@ img {
 
 .footer {
   height:50px;
-  background-color:rgba(0,255,0,.3);
+  /*background-color:rgba(0,255,0,.3);*/
   position: absolute;
   bottom: 0;
   left: 0;
@@ -115,4 +115,18 @@ section {
 
 #big-video-wrap {
     display: none;
+}
+
+#gps_link {
+  color: orange;
+  font-weight: bold;
+}
+
+#gps_link {
+  color: orange;
+  font-weight: bold;
+}
+
+#gps_link:hover { 
+  color:black;
 }
