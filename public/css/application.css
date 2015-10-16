@@ -112,3 +112,7 @@ section {
   right: 1rem;
   padding: 1rem 1rem 1rem 1rem;
 }
+
+#big-video-wrap {
+    display: none;
+}
