@@ -13,6 +13,7 @@ class Weather
 
   # our magic number for rain in the strange zone uninhabited by open weather map
   RAIN = 400
+  UNTRACKED_CONDITION = 0
 
 
   attr_reader :lat, :long, :city_country, :weather_id, :condition_id
@@ -38,8 +39,11 @@ class Weather
     @weather['main']['temp'].to_i
   end
 
-  def sunny? 
-    @weather_id == CLEAR_SKY
+  def sunny?
+    current_time = @weather['dt']
+    sunrise = @weather['sys']['sunrise']
+    sunset = @weather['sys']['sunset']
+    @weather_id == CLEAR_SKY && sunrise < current_time && current_time < sunset
   end
 
   def rainy?
@@ -52,7 +56,7 @@ class Weather
     elsif sunny?
       @condition_id = CLEAR_SKY
     else
-      @condition_id = @weather_id
+      @condition_id = UNTRACKED_CONDITION
     end
   end
 
