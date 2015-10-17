@@ -7,14 +7,17 @@ class Weather
 
   # open weather map condition codes
   #   http://openweathermap.org/weather-conditions
-  CLEAR_SKY = 800
+  THUNDERSTORM = (200..232)
+  DRIZZLE = (300..321)
+  RAIN = (500..531)
   WET_CONDITIONS = (200..531)
-  SNOW = 600
+  SNOW = (600..622)
+  CLEAR_SKY = 800
+
 
   # our magic number for rain in the strange zone uninhabited by open weather map
-  RAIN = 400
+  HUMANS_RAIN = 400
   UNTRACKED_CONDITION = 0
-
 
   attr_reader :lat, :long, :city_country, :weather_id, :condition_id
 
@@ -24,7 +27,6 @@ class Weather
     @city_country = config[:city_country]
     @weather = get_weather
     @weather_id = get_weather['weather'][0]['id'].to_i
-    puts @weather
   end
 
   def get_weather
@@ -52,11 +54,26 @@ class Weather
 
   def condition
     if rainy?
-      @condition_id = RAIN
+      @condition_id = HUMANS_RAIN
     elsif sunny?
       @condition_id = CLEAR_SKY
     else
       @condition_id = UNTRACKED_CONDITION
+    end
+  end
+
+  # this rather pedantic method is used in determining the background image to load
+  def condition_category_name
+    if THUNDERSTORM.include?(@weather_id)
+      'thunderstorm'
+    elsif DRIZZLE.include?(@weather_id)
+      'drizzle'
+    elsif RAIN.include?(@weather_id)
+      'rain'
+    elsif SNOW.include?(@weather_id)
+      'snow'
+    else
+      'sunshine'
     end
   end
 
