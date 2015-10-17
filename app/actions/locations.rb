@@ -1,4 +1,5 @@
 require 'json'
+require 'date'
 
 helpers do
   def get_clothing
@@ -16,6 +17,12 @@ helpers do
     end
     all_items = clothes.merge(extras)
   end
+  #   clothes = body_parts.reduce({}) do |a, e|
+  #     appropriate_clothes = Wearable.get_appropriate_clothing(e, { gender: "M" }, @weather.temperature)
+  #     a[e] = appropriate_clothes unless appropriate_clothes.empty?
+  #     a
+  #   end
+  # end
 
   def generator(time, temperature)
       {
@@ -26,9 +33,15 @@ helpers do
   end
 end
 
-get '/location/:city_country' do
+get '/location/:city_country/data' do
+  content_type :json
   @weather = Weather.new(params)
-  @clothes = get_clothing
+  forecast = @weather.get_three_day_forecast
+  forecast.to_json
+end
+
+get '/location/:city_country' do
+  @city_country = params[:city_country]
   erb :location
 end
 
@@ -44,8 +57,36 @@ end
 
 
 
+
+
+
+
+
+
+
+
+get '/experiment_kevin' do
+  @temperature = { today: [1,2,3,4], tomorrow: [1,5,7,8] }.to_json
+
+  erb :kevin
+end
+
+get '/experiment_robynn' do
+  @weather = Weather.new({city_country: 'Bogota'})
+  # puts Wearable.need_extras(@weather.condition).inspect
+  # puts get_extras
+  ""
+end
+
+
+
+
+
+
+
 get '/data' do
   content_type :json
+
   days = %w[Monday Tuesday Wednesday]
   times = [8, 11, 14, 17, 20, 23]
   temperatures = [10, 13, 12, 15, 17, 24, 9, 30]
@@ -67,17 +108,4 @@ get '/data' do
     }
   end
   cycles.to_json
-end
-
-get '/experiment_kevin' do
-  @temperature = { today: [1,2,3,4], tomorrow: [1,5,7,8] }.to_json
-
-  erb :kevin
-end
-
-get '/experiment_robynn' do
-  @weather = Weather.new({city_country: 'Bogota'})
-  # puts Wearable.need_extras(@weather.condition).inspect
-  # puts get_extras
-  ""
 end

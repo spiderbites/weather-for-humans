@@ -1,17 +1,171 @@
+function getLocationAndRedirect() {
+  if (navigator.geolocation) {
+      position = navigator.geolocation.getCurrentPosition(function(position) {
+        window.location = "/location?lat=" + position.coords.latitude + "&long=" + position.coords.longitude;
+      });
+  } else {
+      // does something better here...
+      alert("Geolocation is not supported by this browser.");
+  }
+}
+
+
+(function() {
+  var counters = {
+    day: 0,
+    cycle: 0,
+    max: {
+      days: 3,
+      cycles: 7
+    }
+  }
+
+  var diurnalCycles;
+
+  var currentDay = function() {
+    return counters.day;
+  };
+
+  var currentCycle = function() {
+    return counters.cycle;
+  };
+
+  var nextDay = function() {
+    counters.day++;
+    if (counters.day === counters.max.days) {
+      counters.day = 0;
+    };
+    return counters.day;
+  };
+
+  var nextCycle = function() {
+    counters.cycle++;
+    if (counters.cycle === counters.max.cycles) {
+      counters.cycle = 0;
+    };
+    return counters.cycle;
+  }
+
+  var init = function(data) {
+    diurnalCycles = data;
+    counters.max = { days: data.length,
+                     cycles: data[0].cycle.length };
+  }
+
+  var getDay = function() {
+    return diurnalCycles[currentDay()].day;
+  }
+
+  var getTime = function() {
+    return diurnalCycles[currentDay()].cycle[currentCycle()].time
+  }
+
+  var getTemperature = function() {
+    return diurnalCycles[currentDay()].cycle[currentCycle()].temperature
+  }
+
+  var getClothes = function() {
+    return diurnalCycles[currentDay()].cycle[currentCycle()].clothes
+  }
+
+
+  window.M = {
+    init: init,
+
+    getDay: getDay,
+    nextDay: nextDay,
+    getTime: getTime,
+    nextCycle: nextCycle,
+    getTemperature: getTemperature,
+    getClothes: getClothes
+  };
+})();
+
+(function(){
+
+  var update = function() {
+    $('.day').text(M.getDay());
+    $('.time').text(M.getTime());
+    $('.temperature').text(M.getTemperature());
+    $('.clothes').text(M.getClothes()[0]);
+    displayTiles();
+  }
+
+  var displayTiles = function() {
+    var clothes = M.getClothes();
+    var result = '';
+    var result1 = '';
+    var result2 = '';
+    var three_clothes;
+
+    $('.tiles').remove();
+    $('section').append("<div class='tiles'></div>");
+    if (clothes.length < 5) {
+      clothes.forEach(function(tile) {
+        result += renderClothingDiv(2, tile);
+      });
+      result = renderRowDiv(result);
+    }
+    else if (clothes.length === 5) {
+      three_clothes = clothes.splice(2,3);
+
+      clothes.forEach(function(tile) {
+        result1 += renderClothingDiv(2, tile);
+      });
+      result1 = renderRowDiv(result1);
+
+      three_clothes.forEach(function(tile) {
+        result2 += renderClothingDiv(3, tile);
+      });
+      result2 = renderRowDiv(result2);
+
+      result = result1 + result2;
+    }
+    else if (clothes.length === 6) {
+      three_clothes = clothes.splice(3, 3);
+
+      three_clothes.forEach(function(tile) {
+        result1 += renderClothingDiv(3, tile);
+      });
+      result1 = renderRowDiv(result1);
+
+      clothes.forEach(function(tile) {
+        result2 += renderClothingDiv(3, tile);
+      });
+      result2  = renderRowDiv(result2);
+      result = result1 + result2;
+    }
+    $('.tiles').append(result);
+  }
+
+  var boxes = {
+    2: " one-half column box",
+    3: " one-third column box",
+    4: " three columns box"
+  };
+
+  var renderRowDiv = function(innerDiv) {
+    return "<div class='row'>" + innerDiv + "</div>";
+  }
+
+  var renderClothingDiv = function(size, tile) {
+    return "<div class='clothing" + boxes[size] + "'>" + renderTileImg(tile) +"</div>";
+  };
+
+  var renderTileImg = function(tile) {
+    return "<img class='u-max-full-width' src='/images/icons/"+tile+".svg'/>";
+  };
+
+  window.V = {
+    update: update,
+    renderClothingDiv: renderClothingDiv
+  };
+})();
+
+
 $(document).ready(function() {
 
   $('#gps_link').click(getLocationAndRedirect);
-
-  function getLocationAndRedirect() {
-      if (navigator.geolocation) {
-          position = navigator.geolocation.getCurrentPosition(function(position) {
-            window.location = "/location?lat=" + position.coords.latitude + "&long=" + position.coords.longitude;
-          });
-      } else {
-          // does something better here...
-          alert("Geolocation is not supported by this browser.");
-      }
-  }
 
   // This code from: http://www.geobytes.com/free-ajax-cities-jsonp-api
   jQuery(function () {
@@ -40,118 +194,5 @@ $(document).ready(function() {
     jQuery("#f_elem_city").autocomplete("option", "delay", 100);
   });
 
-
-  // (function() {
-  //   var counters = {
-  //     day: 0,
-  //     cycle: 0,
-  //     max: {
-  //       days: 3,
-  //       cycles: 7
-  //     }
-  //   }
-
-  //   var diurnalCycles;
-
-  //   var currentDay = function() {
-  //     return counters.day;
-  //   };
-
-  //   var currentCycle = function() {
-  //     return counters.cycle;
-  //   };
-
-  //   var nextDay = function() {
-  //     counters.day++;
-  //     if (counters.day === counters.max.days) {
-  //       counters.day = 0;
-  //     };
-  //     return counters.day;
-  //   };
-
-  //   var nextCycle = function() {
-  //     counters.cycle++;
-  //     if (counters.cycle === counters.max.cycles) {
-  //       counters.cycle = 0;
-  //     };
-  //     return counters.cycle;
-  //   }
-
-  //   var init = function(data) {
-  //     diurnalCycles = data;
-  //     counters.max = { days: data.length,
-  //                      cycles: data[0].cycle.length };
-  //   }
-
-  //   var getDay = function() {
-  //     return diurnalCycles[currentDay()].day;
-  //   }
-
-  //   var getTime = function() {
-  //     return diurnalCycles[currentDay()].cycle[currentCycle()].time
-  //   }
-
-  //   var getTemperature = function() {
-  //     return diurnalCycles[currentDay()].cycle[currentCycle()].temperature
-  //   }
-
-  //   var getClothes = function() {
-  //     return diurnalCycles[currentDay()].cycle[currentCycle()].clothes
-  //   }
-
-
-  //   window.M = {
-  //     init: init,
-
-  //     getDay: getDay,
-  //     nextDay: nextDay,
-  //     getTime: getTime,
-  //     nextCycle: nextCycle,
-  //     getTemperature: getTemperature,
-  //     getClothes: getClothes
-  //   };
-  // })();
-
-  // (function(){
-
-  //   var update = function() {
-  //     $('.day').text(M.getDay());
-  //     $('.time').text(M.getTime());
-  //     $('.temperature').text(M.getTemperature());
-  //     $('.clothes').text(M.getClothes()[0]);
-  //     displayTiles();
-  //   }
-
-  //   var displayTiles = function() {
-  //     clothes = M.getClothes();
-  //     console.log(clothes);
-  //     $('.tiles').remove();
-  //     $('body').append('<div class=tiles></div>');
-  //     clothes.forEach(function(tile) {
-  //       $('.tiles').append("<div class='clothing'> <img src='/images/icons/"+tile+".svg'/> </div>");
-  //     });
-  //   }
-
-  //   window.V = {
-  //     update: update
-  //   };
-  // })();
-
-  // $.get("/data", function(data) {
-  //   M.init(data);
-
-  //   V.update();
-
-  //   $('.day').click(function(){
-  //     M.nextDay();
-  //     V.update();
-  //   });
-
-  //   $('.time').click(function(){
-  //     M.nextCycle();
-  //     V.update();
-  //   });
-
-  // })
 });
 
