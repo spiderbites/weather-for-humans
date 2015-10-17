@@ -1,6 +1,4 @@
 require 'open_weather'
-require 'date'
-require 'tzinfo'
 
 class Weather
   include OpenWeather

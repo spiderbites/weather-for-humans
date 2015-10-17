@@ -17,12 +17,6 @@ helpers do
     end
     all_items = clothes.merge(extras)
   end
-  #   clothes = body_parts.reduce({}) do |a, e|
-  #     appropriate_clothes = Wearable.get_appropriate_clothing(e, { gender: "M" }, @weather.temperature)
-  #     a[e] = appropriate_clothes unless appropriate_clothes.empty?
-  #     a
-  #   end
-  # end
 
   def generator(time, temperature)
       {
