@@ -39,9 +39,42 @@
   <script src="/javascript/bigvideo.js"></script>
 
   <script src="/javascript/application.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   <title>Weather for Humans</title>
+
+
+  <script>
+    $(document).ready(function() {
+      var vidfile = $("div[vidfile]").attr("vidfile");
+      var BV;
+      $(function() {
+        // initialize BigVideo
+        BV = new $.BigVideo();
+        BV.init();
+        if (Modernizr.touch) {
+          BV.show('/vid/' + vidfile + '.jpg');
+        } else {
+          BV.show('/vid/' + vidfile + '.mp4',{ambient:true});
+          BV.getPlayer().on('durationchange',function() {
+            $('#big-video-wrap').fadeIn();
+          });
+        }
+      });
+    });
+  </script>
+
+
+<!-- until i can get bigvideo to show this jpg i'm keeping this here -josh -->
+  <style>
+    body {
+      background-image: url("/vid/<%= active_page_vid %>.jpg");
+    }
+  </style>
+
+
 </head>
 <body>
+  <div vidfile="<%= active_page_vid %>"></div>
   <%= yield %>
 </body>
 </html>
