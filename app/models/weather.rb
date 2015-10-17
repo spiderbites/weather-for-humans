@@ -5,6 +5,16 @@ class Weather
 
   OPEN_WEATHER_OPTIONS = { units: "metric", APPID: "66cd0a1a0f9e1272ae428b4f5a9a1e9c" }
 
+  # open weather map condition codes
+  #   http://openweathermap.org/weather-conditions
+  CLEAR_SKY = 800
+  WET_CONDITIONS = (200..531)
+  SNOW = 600
+
+  # our magic number for rain in the strange zone uninhabited by open weather map
+  RAIN = 400
+
+
   attr_reader :lat, :long, :city_country, :weather_id, :condition_id
 
   def initialize(config)
@@ -13,6 +23,7 @@ class Weather
     @city_country = config[:city_country]
     @weather = get_weather
     @weather_id = get_weather['weather'][0]['id'].to_i
+    puts @weather
   end
 
   def get_weather
@@ -28,18 +39,18 @@ class Weather
   end
 
   def sunny? 
-    @weather_id == 800
+    @weather_id == CLEAR_SKY
   end
 
   def rainy?
-    @weather_id >= 200 && @weather_id < 600
+    WET_CONDITIONS.include?(@weather_id)
   end
 
   def condition
     if rainy?
-      @condition_id = 400
+      @condition_id = RAIN
     elsif sunny?
-      @condition_id = 800
+      @condition_id = CLEAR_SKY
     else
       @condition_id = @weather_id
     end
