@@ -7,4 +7,10 @@ class Wearable < ActiveRecord::Base
      result = Wearable.where("(gender = '#{user_specifications[:gender]}' or gender = 'U') and body_part = '#{body_part}' and min_temp <= #{weather.temperature} and max_temp >= #{weather.temperature}")
      result.map { |wearable| wearable.clothing }
   end
+
+  def self.need_extras(body_part, condition)
+    result = Wearable.where("body_part ='#{body_part}' and conditions = #{condition}")
+    result.map { |wearable| wearable.clothing }
+  end
+
 end

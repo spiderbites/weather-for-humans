@@ -9,6 +9,12 @@ helpers do
       a[e] = appropriate_clothes unless appropriate_clothes.empty?
       a
     end
+    extras = body_parts.reduce({}) do |a,e|
+      appropriate_extras = Wearable.need_extras(e, @weather.condition)
+      a[e] = appropriate_extras unless appropriate_extras.empty?
+      a
+    end
+    all_items = clothes.merge(extras)
   end
 
   def generator(time, temperature)
@@ -23,7 +29,6 @@ end
 get '/location/:city_country' do
   @weather = Weather.new(params)
   @clothes = get_clothing
-
   erb :location
 end
 
@@ -37,26 +42,7 @@ post '/location' do
   redirect "location/#{params[:city_country]}"
 end
 
-class DiurnalCycle
 
-  attr_reader :day
-
-  def initialize(day_of_week)
-    @day = day_of_week
-    @cycle = []
-  end
-
-  def add_unit(unit)
-    cycle << unit
-  end
-
-  def get_unit
-    cycle.pop
-  end
-
-  private
-    attr_accessor :cycle
-end
 
 get '/data' do
   content_type :json
@@ -87,4 +73,11 @@ get '/experiment_kevin' do
   @temperature = { today: [1,2,3,4], tomorrow: [1,5,7,8] }.to_json
 
   erb :kevin
+end
+
+get '/experiment_robynn' do
+  @weather = Weather.new({city_country: 'Bogota'})
+  # puts Wearable.need_extras(@weather.condition).inspect
+  # puts get_extras
+  ""
 end
