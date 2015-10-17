@@ -1,3 +1,4 @@
+<div id="main">
 <div class="container">
   <table>
   <tbody>
@@ -38,7 +39,7 @@
 
       </div> <!-- end row -->
 
-    <% elsif [3, 5, 6].include?(clothes_size) %>
+    <% elsif [3, 5, 6, 7].include?(clothes_size) %>
 
       <% clothing[0..2].each do |item| %>
           <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
@@ -63,6 +64,14 @@
         <% clothing[3..5].each do |item| %>
           <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
         <% end %>
+
+      <% elsif clothes_size == 7 %>
+        
+        <div class="row">
+
+        <% clothing[3..6].each do |item| %>
+          <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
+        <% end %>
         
         </div> <!-- end row -->
       <% end %>
@@ -75,5 +84,4 @@
   <div class="twelve column u-full-width footer"></div>
 </div>
 </div>
-
-<%= @clothes %>
+</div>

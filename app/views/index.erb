@@ -1,3 +1,29 @@
+<script>
+  $(document).ready(function() {
+    var BV;
+    $(function() {
+      // initialize BigVideo
+      BV = new $.BigVideo();
+      BV.init();
+      if (Modernizr.touch) {
+        BV.show('/vid/clouds.jpg');
+      } else {
+        BV.show('/vid/clouds.mp4',{ambient:true});
+        BV.getPlayer().on('durationchange',function() {
+          $('#big-video-wrap').fadeIn();
+        });
+      }
+    });
+  });
+</script>
+
+<!-- until i can get bigvideo to show this jpg i'm keeping this here -josh -->
+  <style>
+    body {
+      background-image: url("/vid/clouds.jpg");
+    }
+  </style>
+
 <div class="container">
 
   <section class="main-header">
