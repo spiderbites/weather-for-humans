@@ -9,11 +9,11 @@
 <div class="container">
   <table>
   <tbody>
-    <tr> 
+    <tr>
       <td></td><td><img class="arrow" src="/images/icons/arrow-up-with-split.svg"/></td><td></td>
     </tr>
-    <tr> 
-      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td>Friday<br>11:30am</td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
+    <tr>
+      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td><%=@weather.city_country.nil? ? "Current Location" : @weather.city_country.split(',')[0] %><br>Friday<br>11:30am</td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
     </tr>
     <tr>
       <td></td><td><img class="arrow" src="/images/icons/arrow-down-with-split.svg"/></td><td></td>
@@ -22,14 +22,14 @@
   </table>
 
   <section>
-    
+
     <div class="row">
-      <div class="twelve column u-full-width timetext">Right now, you need...</div>      
+      <div class="twelve column u-full-width timetext">Right now, you need...</div>
     </div>
 
 
     <div class="row">
-    
+
     <% clothes_size = @clothes.size %>
     <% clothing = @clothes.map {|body_part, items| items[0] } %>
     <% if clothes_size == 2 %>
@@ -65,7 +65,7 @@
         </div> <!-- end row -->
 
       <% elsif clothes_size == 6 %>
-        
+
         <div class="row">
 
         <% clothing[3..5].each do |item| %>
@@ -73,20 +73,20 @@
         <% end %>
 
       <% elsif clothes_size == 7 %>
-        
+
         <div class="row">
 
         <% clothing[3..6].each do |item| %>
           <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
         <% end %>
-        
+
         </div> <!-- end row -->
       <% end %>
     <% end %>
 
   </div>
 </section>
-    
+
 <div class="row">
   <div class="twelve column u-full-width footer"></div>
 </div>
