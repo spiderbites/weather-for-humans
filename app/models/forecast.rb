@@ -40,14 +40,6 @@ class Forecast
     # we only want num_slices of the full forecast
     desired_results = full_forecast["list"][0..num_slices - 1]
 
-    # add Weather objects to @forecast array
-    forecast << Weather.new(current_forecast, offset)
-    desired_results.each do |weather_data|
-      forecast << Weather.new(weather_data, offset)
-    end
-
-    @forecast = forecast
-
     # we also set some variables related to the current location
     unless lat && lon
       @lat = current_forecast["coord"]["lat"]
@@ -57,6 +49,16 @@ class Forecast
     @sunset = Time.at(current_forecast["sys"]["sunset"]).localtime(offset)
 
     @place_name = current_forecast["name"]
+
+    # add Weather objects to @forecast array
+    forecast << Weather.new(current_forecast, offset, sunrise, sunset)
+    desired_results.each do |weather_data|
+      forecast << Weather.new(weather_data, offset, sunrise, sunset)
+    end
+
+    @forecast = forecast
+
+
 
   end
 

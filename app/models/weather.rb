@@ -13,21 +13,21 @@ class Weather
   HUMANS_RAIN = 400
   UNTRACKED_CONDITION = 0
 
-  attr_reader :time, :temp, :condition_id
+  attr_reader :time, :temperature, :condition_id, :clothing, :sunrise, :sunset
 
-  def initialize(open_weather_hash, timezone_offset)
+  def initialize(open_weather_hash, timezone_offset, sunrise, sunset)
+    @sunrise = sunrise
+    @sunset = sunset
     process(open_weather_hash, timezone_offset)
+    @clothing = nil
   end
 
   def sunny?
-    current_time = @weather['dt']
-    sunrise = @weather['sys']['sunrise']
-    sunset = @weather['sys']['sunset']
-    @weather_id == CLEAR_SKY && sunrise < current_time && current_time < sunset
+    @condition_id == CLEAR_SKY && sunrise < time && time < sunset
   end
 
   def rainy?
-    WET_CONDITIONS.include?(@weather_id)
+    WET_CONDITIONS.include?(@condition_id)
   end
 
   def condition
@@ -42,13 +42,13 @@ class Weather
 
   # this rather pedantic method is used in determining the background image to load
   def condition_category_name
-    if THUNDERSTORM.include?(@weather_id)
+    if THUNDERSTORM.include?(@condition_id)
       'thunderstorm'
-    elsif DRIZZLE.include?(@weather_id)
+    elsif DRIZZLE.include?(@condition_id)
       'drizzle'
-    elsif RAIN.include?(@weather_id)
+    elsif RAIN.include?(@condition_id)
       'rain'
-    elsif SNOW.include?(@weather_id)
+    elsif SNOW.include?(@condition_id)
       'snow'
     else
       'sunshine'
@@ -59,14 +59,8 @@ class Weather
 
   def process(open_weather_hash, timezone_offset)
     @time = Time.at(open_weather_hash["dt"]).localtime(timezone_offset)
-    @temp = open_weather_hash["main"]["temp"]
+    @temperature = open_weather_hash["main"]["temp"]
     @condition_id = open_weather_hash["weather"][0]["id"]
   end
 
 end
-
-
-  # def temperature
-  #   @weather['main']['temp'].to_i
-  # end
-
