@@ -33,13 +33,9 @@ class Forecast
     end
 
     timezone = GeoNamesAPI::TimeZone.find(current_forecast["coord"]["lat"], current_forecast["coord"]["lon"])
-    puts "DST: " + timezone.dst_offset.to_s
-    puts "GMT: " + timezone.gmt_offset.to_s
-    puts "RAW: " + timezone.raw_offset.to_s
 
     # TODO: determine when to use DST offset and when to use GMT offset
     offset = Forecast.format_offset(timezone.dst_offset)
-    puts "OFFSET: " + offset
 
     # we only want num_slices of the full forecast
     desired_results = num_slices == 0 ? nil : full_forecast["list"][0..num_slices - 1]
@@ -64,9 +60,6 @@ class Forecast
     end
 
     @forecast = forecast
-
-
-
   end
 
   # function to convert the DST/GMT offset integer returned by geonames to the string format
