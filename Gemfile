@@ -10,7 +10,7 @@ gem 'sinatra-activerecord'
 
 gem 'puma'
 gem 'tux'
-gem 'date'
+# gem 'date'
 
 # wrapper for open weather
 gem 'open-weather'
