@@ -73,23 +73,32 @@ class DiurnalCycles
       end
 
       def _forecast_unit(i)
+
+        utc = @@forecast['list'][i]['dt']
         {
-          time: DateTime.strptime(@@forecast['list'][i]['dt'].to_s, '%s'),
+          time: DateTime.strptime(utc.to_s, '%s'),
+          utc: utc,
+          sunrise: @@current_weather['sys']['sunrise'], # assuming that no drastic change occurs in three days time.
+          sunset: @@current_weather['sys']['sunset'],
           temperature: temperature = @@forecast['list'][i]['main']['temp'],
           weather_id: @@forecast['list'][i]['weather'][0]['id']
         }
       end
 
       def _set_today_weather
-        current_weather = _current_weather_cast
+        @@current_weather = _current_weather_cast
 
-        time = DateTime.strptime(current_weather['dt'].to_s, '%s')
+        utc = @@current_weather['dt']
+        time = DateTime.strptime(utc.to_s, '%s')
         @@today = time.strftime( "%A" )
 
         current_weather_config = {
           time: time,
-          temperature: current_weather['main']['temp'].to_i,
-          weather_id: current_weather['weather'][0]['id'].to_i,
+          utc: utc,
+          sunrise: @@current_weather['sys']['sunrise'],
+          sunset: @@current_weather['sys']['sunset'],
+          temperature: @@current_weather['main']['temp'].to_i,
+          weather_id: @@current_weather['weather'][0]['id'].to_i,
         }
 
         @@diurnal_cycle = DiurnalCycles.new({day: current_weather_config[:time].strftime( "%A" )})

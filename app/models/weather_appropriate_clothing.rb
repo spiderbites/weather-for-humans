@@ -10,9 +10,9 @@ class WeatherAppropriateClothing
 
   private
     def get_appropriate_clothing(weather)
-      clothes = @@body_parts.reduce({}) do |a, e|
+      clothes = @@body_parts.reduce([]) do |a, e|
         appropriate_clothes = Wearable.get_appropriate_clothing(e, config, weather)
-        a[e] = appropriate_clothes unless appropriate_clothes.empty?
+        a << appropriate_clothes unless appropriate_clothes.empty?
         a
       end
     end
