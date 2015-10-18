@@ -12,7 +12,7 @@
       <td></td><td><img class="arrow" src="/images/icons/arrow-up-with-split.svg"/></td><td></td>
     </tr>
     <tr> 
-      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td>Friday<br>11:30am</td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
+      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td><%= Date::DAYNAMES[@weather.time.wday] %><br><%= @weather.time.strftime("%I:%M%p") %></td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
     </tr>
     <tr>
       <td></td><td><img class="arrow" src="/images/icons/arrow-down-with-split.svg"/></td><td></td>
