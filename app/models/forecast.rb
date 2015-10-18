@@ -27,12 +27,12 @@ class Forecast
     if by_geocode?
       current_forecast = OpenWeather::Current.geocode(lat, lon, OPEN_WEATHER_OPTIONS)
       full_forecast = num_slices == 0 ? nil : OpenWeather::Forecast.geocode(lat, lon, OPEN_WEATHER_OPTIONS)
+      timezone = GeoNamesAPI::TimeZone.find(lat, lon)
     elsif by_city?
       current_forecast = OpenWeather::Current.city(city_country, OPEN_WEATHER_OPTIONS)
       full_forecast = num_slices == 0 ? nil : OpenWeather::Forecast.city(city_country, OPEN_WEATHER_OPTIONS)
+      timezone = GeoNamesAPI::TimeZone.find(current_forecast["coord"]["lat"], current_forecast["coord"]["lon"])
     end
-
-    timezone = GeoNamesAPI::TimeZone.find(current_forecast["coord"]["lat"], current_forecast["coord"]["lon"])
 
     # TODO: determine when to use DST offset and when to use GMT offset
     offset = Forecast.format_offset(timezone.dst_offset)

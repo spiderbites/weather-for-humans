@@ -5,7 +5,7 @@ $(document).ready(function() {
   function getLocationAndRedirect() {
       if (navigator.geolocation) {
           position = navigator.geolocation.getCurrentPosition(function(position) {
-            window.location = "/location?lat=" + position.coords.latitude + "&long=" + position.coords.longitude;
+            window.location = "/location?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
           });
       } else {
           // does something better here...
