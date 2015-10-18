@@ -42,7 +42,7 @@ class DiurnalCycles
   end
 
   def self.generate_one_cycle(i, j)
-    @@unit.add_unit Weatherr.new(forecast_unit(j))
+    @@unit.add_unit Weather.new(forecast_unit(j))
     generate_one_cycle(i, j + 1) if j < i + DAILY
   end
 
