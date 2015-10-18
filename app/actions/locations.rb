@@ -10,11 +10,12 @@ helpers do
       a
     end
     extras = body_parts.reduce({}) do |a,e|
-      appropriate_extras = Wearable.need_extras(e, @weather.condition)
+      appropriate_extras = Wearable.need_extras(e, @weather)
       a[e] = appropriate_extras unless appropriate_extras.empty?
       a
     end
-    all_items = clothes.merge(extras)
+    puts clothes.merge!(extras)
+    all_items = clothes.merge!(extras)
   end
 
 end
