@@ -15,6 +15,9 @@ gem 'tux'
 # wrapper for open weather
 gem 'open-weather'
 
+# geonames for timezone
+gem 'geonames_api'
+
 gem 'rack'
 gem 'sass'
 gem 'json'
