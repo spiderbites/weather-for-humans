@@ -33,9 +33,13 @@ class Forecast
     end
 
     timezone = GeoNamesAPI::TimeZone.find(current_forecast["coord"]["lat"], current_forecast["coord"]["lon"])
+    puts "DST: " + timezone.dst_offset.to_s
+    puts "GMT: " + timezone.gmt_offset.to_s
+    puts "RAW: " + timezone.raw_offset.to_s
 
     # TODO: determine when to use DST offset and when to use GMT offset
     offset = Forecast.format_offset(timezone.dst_offset)
+    puts "OFFSET: " + offset
 
     # we only want num_slices of the full forecast
     desired_results = num_slices == 0 ? nil : full_forecast["list"][0..num_slices - 1]
@@ -68,32 +72,29 @@ class Forecast
   # function to convert the DST/GMT offset integer returned by geonames to the string format
   # used by ruby's Time
   # e.g. converting -12..14 to '-12:00'..'+14:00'
-  def self.format_offset(offset_int)
-    num = offset_int.to_s
-    if num[0] == '-'
+  # but friggin kathmandu uses 5.75 which needs to become +05:45
+  def self.format_offset(offset)
+    offset = offset.to_s
+
+    # first determine the sign, - or +
+    if offset[0] == '-'
       sign = '-'
-      num = num[1..-1]
+      offset = offset[1..-1]
     else
       sign = '+'
     end
-    num = num.length == 1 ? '0'+num : num
-    sign + num + ":00"
-  end
 
-  # PSEUDOCODE
-  # def distinct_clothing
-  #   for each weather object in @forecast
-  #     weather.get_appropriate_clothing
-  #   superset = first weather object clothing
-  #   for weather objects second..end
-  #     for clothing in weather
-  #       if clothing in superset
-  #         delete clothing
-  #       end
-  #     end
-  #     superset += remaining clothes
-  #   end
-  # end
+    # if split gives us a one element array
+    offset = offset.split(".")
+
+    # get the hour, prepending a '0' if necessary
+    hour = offset[0].length == 1 ? '0'+offset[0] : offset[0]
+
+    # get the minutes, convert from e.g. 75 to 45 if necessary...  (see kathmandu above)
+    mins = offset.length == 1 ? '00' : (offset[1].to_i * 0.6).to_i.to_s
+
+    sign + hour + ":" + mins
+  end
 
   private
 
@@ -116,59 +117,3 @@ class Forecast
     end
 
 end
-
-
-  # def sunny?
-  #   @weather_id == 800
-  # end
-
-  # def rainy?
-  #   @weather_id >= 200 && @weather_id < 600
-  # end
-
-  # def condition
-  #   if rainy?
-  #     @condition_id = 400
-  #   elsif sunny?
-  #     @condition_id = 800
-  #   else
-  #     @condition_id = @weather_id
-  #   end
-  # end
-
-
-
-
-  # def get_weather
-  #   if by_geocode?
-  #     Current.geocode(lat, long, OPEN_WEATHER_OPTIONS)
-  #   elsif by_city?
-  #     Current.city(city_country, OPEN_WEATHER_OPTIONS)
-  #   end
-  # end
-
-  # def temperature
-  #   @weather['main']['temp'].to_i
-  # end
-
-
-    # def get_clothing(temperature)
-    #   body_parts = Wearable.get_body_parts
-
-    #   clothes = body_parts.reduce({}) do |a, e|
-    #     appropriate_clothes = Wearable.get_appropriate_clothing(e, { gender: "M" }, temperature)
-    #     a[e] = appropriate_clothes unless appropriate_clothes.empty?
-    #     a
-    #   end
-    # end
-
-    # def forecast_unit(i)
-    #   body_parts = Wearable.get_body_parts
-    #   temperature = forecast['list'][i]['main']['temp']
-    #   {
-    #     time: DateTime.strptime(forecast['list'][i]['dt'].to_s, '%s'),
-    #     temperature: temperature,
-    #     weather_id: forecast['list'][i]['weather'][0]['id'],
-    #     clothes: get_clothing(temperature).values.map { |e| e[0] }
-    #   }
-    # end
