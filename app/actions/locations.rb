@@ -6,7 +6,7 @@ get '/location/:city_country/data' do
 
   @clothes = DiurnalCycles.cycles.map do |cycle|
     cycle.cycle.map do |weather|
-      WeatherAppropriateClothing.new({ gender: 'M', weather: weather })
+      WeatherAppropriateClothing.new(weather, { gender: 'M' })
     end
   end
   @clothes.to_json

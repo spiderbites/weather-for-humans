@@ -20,70 +20,108 @@ class DiurnalCycles
     @cycle << unit
   end
 
-  def self.create(config)
-    @@cycles << DiurnalCycles.new(config)
-  end
+  class << self
 
-  def self.initialize(config)
-    @@city_country = config[:city_country]
-    @@lat = config[:lat]
-    @@long = config[:long]
-    @@duration = config[:duration]
-    @@forecast = _forecast
-
-    generate_cycles(0)
-  end
-
-  def self.generate_cycles(i)
-    @@unit = DiurnalCycles.new({day: forecast_unit(i)[:time].strftime( "%A" )})
-    generate_one_cycle(i, i)
-    @@cycles << @@unit
-    generate_cycles(i + DAILY) if i < (@@duration - 1) * DAILY
-  end
-
-  def self.generate_one_cycle(i, j)
-    @@unit.add_unit Weather.new(forecast_unit(j))
-    generate_one_cycle(i, j + 1) if j < i + DAILY
-  end
-
-  def self.city_country
-    @@city_country
-  end
-
-  def self.lat
-    @@lat
-  end
-
-  def self.long
-    @@long
-  end
-
-  def self.cycles
-    @@cycles
-  end
-
-  private
-    def self.by_geocode?
-      @@lat && @@long
+    def add_cycle(cycle)
+      @@cycles << cycle
     end
 
-    def self.by_city?
-      !@@city_country.nil?
+    def initialize(config)
+      @@city_country = config[:city_country]
+      @@lat = config[:lat]
+      @@long = config[:long]
+      @@duration = config[:duration]
+      @@forecast = _forecast
+      set_current_weather
     end
 
-    def self._forecast
-      if by_city?
-        OpenWeather::Forecast.city(@@city_country, OPEN_WEATHER_OPTIONS)
-      elsif by_geocode?
-        OpenWeather::Forecast.geocode(@@lat, @@long, OPEN_WEATHER_OPTIONS)
-      end
-    end
+    def set_current_weather
+      current_weather = _currentcast
 
-    def self.forecast_unit(i)
-      {
-        time: DateTime.strptime(_forecast['list'][i]['dt'].to_s, '%s'),
-        temperature: temperature = _forecast['list'][i]['main']['temp'],
-        weather_id: _forecast['list'][i]['weather'][0]['id']
+      time = DateTime.strptime(current_weather['dt'].to_s, '%s')
+      @@today = time.strftime( "%A" )
+
+      current_weather_config = {
+        time: time,
+        temperature: current_weather['main']['temp'].to_i,
+        weather_id: current_weather['weather'][0]['id'].to_i,
       }
+      @@unit = DiurnalCycles.new({day: current_weather_config[:time].strftime( "%A" )})
+      @@unit.add_unit Weather.new(current_weather_config)
+      puts determine_amount_day_remaining
+      generate_cycles(0)
     end
+
+    def determine_amount_day_remaining
+      (0..7).to_a.map { |i| _forecast_unit(i)[:time].strftime( "%A" ) != @@today }
+    end
+
+    def set_forecast_weather
+
+    end
+
+    def generate_cycles(i)
+      @@unit = DiurnalCycles.new({day: _forecast_unit(i)[:time].strftime( "%A" )})
+      i = generate_one_cycle(i)
+      add_cycle(@@unit)
+      generate_cycles(i + 1) if (i + 1) < (@@duration - 1) * DAILY
+    end
+
+    def generate_one_cycle(i)
+      @@unit.add_unit Weather.new(_forecast_unit(i))
+      generate_one_cycle(i + 1) if _forecast_unit(i + 1)[:time].strftime( "%A" ) == @@today
+      @@today = _forecast_unit(i + 1)[:time].strftime( "%A" )
+      puts "#{i}, #{@@today}"
+      i
+    end
+
+    def city_country
+      @@city_country
+    end
+
+    def lat
+      @@lat
+    end
+
+    def long
+      @@long
+    end
+
+    def cycles
+      @@cycles
+    end
+
+    private
+      def _by_geocode?
+        @@lat && @@long
+      end
+
+      def _by_city?
+        !@@city_country.nil?
+      end
+
+      def _currentcast
+        if _by_city?
+          OpenWeather::Current.city(@@city_country, OPEN_WEATHER_OPTIONS)
+        elsif _by_geocode?
+          OpenWeather::Current.geocode(@@lat, @@long, OPEN_WEATHER_OPTIONS)
+        end
+      end
+
+      def _forecast
+        if _by_city?
+          OpenWeather::Forecast.city(@@city_country, OPEN_WEATHER_OPTIONS)
+        elsif _by_geocode?
+          OpenWeather::Forecast.geocode(@@lat, @@long, OPEN_WEATHER_OPTIONS)
+        end
+      end
+
+      def _forecast_unit(i)
+        {
+          time: DateTime.strptime(_forecast['list'][i]['dt'].to_s, '%s'),
+          temperature: temperature = _forecast['list'][i]['main']['temp'],
+          weather_id: _forecast['list'][i]['weather'][0]['id']
+        }
+      end
+  end
 end
