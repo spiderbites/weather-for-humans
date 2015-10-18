@@ -42,7 +42,6 @@ class Weather
 
   # this rather pedantic method is used in determining the background image to load
   def condition_category_name
-    puts @condition_id
     if THUNDERSTORM.include?(@condition_id)
       'thunderstorm'
     elsif DRIZZLE.include?(@condition_id)
@@ -60,7 +59,7 @@ class Weather
 
   def process(open_weather_hash, timezone_offset)
     @time = Time.at(open_weather_hash["dt"]).localtime(timezone_offset)
-    @temperature = open_weather_hash["main"]["temp"]
+    @temperature = open_weather_hash["main"]["temp"].round
     @condition_id = open_weather_hash["weather"][0]["id"]
   end
 

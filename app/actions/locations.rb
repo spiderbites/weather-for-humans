@@ -21,22 +21,20 @@ end
 get '/location/:city_country' do
   @forecast = Forecast.new(params, 4)
   
-  @weather = @forecast.forecast[0] #Weather.new(params)
+  @weather = @forecast.forecast[0]
   @all_weather = @forecast.forecast
 
-  @clothes = get_clothing(@weather)
+  @clothes = get_clothing(@weather) 
+  
+  clothes_list = @all_weather.map{ |weather| get_clothing(weather) }
   @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
+
   erb :location
 end
 
-# get '/location' do
-#   @forecast = Forecast.new(params, 1) # only get current temp for now
-#   @weather = @forecast.forecast[0] #Weather.new(params)
-#   @future_weather = @forecast.forecast[1]
-#   @clothes = get_clothing(@weather)
-#   @future_clothes = get_clothing(@future_weather)
-#   erb :location
-# end
+get '/location' do
+  erb :location
+end
 
 post '/location' do
   redirect "location/#{params[:city_country]}"
