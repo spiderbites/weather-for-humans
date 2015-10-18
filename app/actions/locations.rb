@@ -25,14 +25,3 @@ end
 post '/location' do
   redirect "location/#{params[:city_country]}"
 end
-
-get '/kevin' do
-  DiurnalCycles.initialize({ city_country: 'Moscow,Russia',
-                             duration: 3 })
-  @clothes = DiurnalCycles.cycles.map do |cycle|
-    cycle.cycle.map do |weather|
-      WeatherAppropriateClothing.new({ gender: 'M', weather: weather })
-    end
-  end
-  erb :kevin
-end

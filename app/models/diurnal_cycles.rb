@@ -2,12 +2,9 @@ require 'open_weather'
 
 class DiurnalCycles
   OPEN_WEATHER_OPTIONS = { units: "metric", APPID: "66cd0a1a0f9e1272ae428b4f5a9a1e9c" }
-  THREE_HOURLY = 3
-  DAILY = 7
 
   attr_reader :day, :cycle
 
-  @@duration
   @@forecast
   @@cycles = []
 
@@ -21,7 +18,6 @@ class DiurnalCycles
   end
 
   class << self
-
     def add_cycle(cycle)
       @@cycles << cycle
     end
@@ -30,49 +26,9 @@ class DiurnalCycles
       @@city_country = config[:city_country]
       @@lat = config[:lat]
       @@long = config[:long]
-      @@duration = config[:duration]
       @@forecast = _forecast
-      set_current_weather
-    end
-
-    def set_current_weather
-      current_weather = _currentcast
-
-      time = DateTime.strptime(current_weather['dt'].to_s, '%s')
-      @@today = time.strftime( "%A" )
-
-      current_weather_config = {
-        time: time,
-        temperature: current_weather['main']['temp'].to_i,
-        weather_id: current_weather['weather'][0]['id'].to_i,
-      }
-      @@unit = DiurnalCycles.new({day: current_weather_config[:time].strftime( "%A" )})
-      @@unit.add_unit Weather.new(current_weather_config)
-      puts determine_amount_day_remaining
-      generate_cycles(0)
-    end
-
-    def determine_amount_day_remaining
-      (0..7).to_a.map { |i| _forecast_unit(i)[:time].strftime( "%A" ) != @@today }
-    end
-
-    def set_forecast_weather
-
-    end
-
-    def generate_cycles(i)
-      @@unit = DiurnalCycles.new({day: _forecast_unit(i)[:time].strftime( "%A" )})
-      i = generate_one_cycle(i)
-      add_cycle(@@unit)
-      generate_cycles(i + 1) if (i + 1) < (@@duration - 1) * DAILY
-    end
-
-    def generate_one_cycle(i)
-      @@unit.add_unit Weather.new(_forecast_unit(i))
-      generate_one_cycle(i + 1) if _forecast_unit(i + 1)[:time].strftime( "%A" ) == @@today
-      @@today = _forecast_unit(i + 1)[:time].strftime( "%A" )
-      puts "#{i}, #{@@today}"
-      i
+      _set_today_weather
+      _set_forecast_weather
     end
 
     def city_country
@@ -100,7 +56,7 @@ class DiurnalCycles
         !@@city_country.nil?
       end
 
-      def _currentcast
+      def _current_weather_cast
         if _by_city?
           OpenWeather::Current.city(@@city_country, OPEN_WEATHER_OPTIONS)
         elsif _by_geocode?
@@ -118,10 +74,51 @@ class DiurnalCycles
 
       def _forecast_unit(i)
         {
-          time: DateTime.strptime(_forecast['list'][i]['dt'].to_s, '%s'),
-          temperature: temperature = _forecast['list'][i]['main']['temp'],
-          weather_id: _forecast['list'][i]['weather'][0]['id']
+          time: DateTime.strptime(@@forecast['list'][i]['dt'].to_s, '%s'),
+          temperature: temperature = @@forecast['list'][i]['main']['temp'],
+          weather_id: @@forecast['list'][i]['weather'][0]['id']
         }
+      end
+
+      def _set_today_weather
+        current_weather = _current_weather_cast
+
+        time = DateTime.strptime(current_weather['dt'].to_s, '%s')
+        @@today = time.strftime( "%A" )
+
+        current_weather_config = {
+          time: time,
+          temperature: current_weather['main']['temp'].to_i,
+          weather_id: current_weather['weather'][0]['id'].to_i,
+        }
+
+        @@diurnal_cycle = DiurnalCycles.new({day: current_weather_config[:time].strftime( "%A" )})
+        @@diurnal_cycle.add_unit Weather.new(current_weather_config)
+
+        i = _determine_amount_day_remaining
+
+        _generate_cycles((0..i-1).to_a)
+      end
+
+      def _set_forecast_weather
+        i = _determine_amount_day_remaining
+
+        @@diurnal_cycle = DiurnalCycles.new({day: _forecast_unit(i)[:time].strftime( "%A" )})
+        _generate_cycles((i..i+7).to_a)
+
+        @@diurnal_cycle = DiurnalCycles.new({day: _forecast_unit(i+8)[:time].strftime( "%A" )})
+        _generate_cycles((i+8..i+15).to_a)
+      end
+
+      def _generate_cycles(day)
+        day.each do |i|
+          @@diurnal_cycle.add_unit Weather.new(_forecast_unit(i))
+        end
+        add_cycle(@@diurnal_cycle)
+      end
+
+      def _determine_amount_day_remaining
+        (0..7).to_a.select { |i| _forecast_unit(i)[:time].strftime( "%A" ) == @@today }.length
       end
   end
 end

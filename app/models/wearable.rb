@@ -12,5 +12,4 @@ class Wearable < ActiveRecord::Base
     result = Wearable.where("body_part ='#{body_part}' and conditions = #{condition}")
     result.map { |wearable| wearable.clothing }
   end
-
 end
