@@ -1,0 +1,20 @@
+<% clothes_size = clothes.size %>
+<% clothing = clothes.map {|body_part, items| items[0] } %>
+
+<% def output_rows(clothes_size, clothing) %>
+  <% if clothes_size == 0 %>
+    <% return %>
+  <% elsif clothes_size == 1 %> 
+    <%= erb :"partials/_one_image", locals: {clothes_item: clothing[0]} %>
+  <% elsif clothes_size == 2 %>
+    <%= erb :"partials/_two_images", locals: {clothing: clothing} %>
+  <% elsif clothes_size == 4 %>
+    <%= erb :"partials/_four_images", locals: {clothing: clothing} %>
+  <% else %>
+    <%= erb :"partials/_three_images", locals: {clothing: clothing[0..2]} %>
+    <% remaining_clothes = clothing[3..-1] %>
+    <% output_rows(remaining_clothes.size, remaining_clothes) %>
+  <% end %>
+<% end %>
+
+<% output_rows(clothes_size, clothing) %>

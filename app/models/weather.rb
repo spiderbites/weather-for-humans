@@ -1,9 +1,4 @@
-require 'open_weather'
-
 class Weather
-  include OpenWeather
-
-  OPEN_WEATHER_OPTIONS = { units: "metric", APPID: "66cd0a1a0f9e1272ae428b4f5a9a1e9c" }
 
   # open weather map condition codes
   #   http://openweathermap.org/weather-conditions
@@ -14,63 +9,46 @@ class Weather
   SNOW = (600..622)
   CLEAR_SKY = 800
 
-
   # our magic number for rain in the strange zone uninhabited by open weather map
   HUMANS_RAIN = 400
-  UNTRACKED_CONDITION = 0
+  UNTRACKED_CONDITION = -1
 
-  attr_reader :lat, :long, :city_country, :weather_id, :condition_id
+  attr_reader :time, :temperature, :condition_id, :clothing, :sunrise, :sunset
 
-  def initialize(config)
-    @lat = config[:lat]
-    @long = config[:long]
-    @city_country = config[:city_country]
-    @weather = get_weather
-    @weather_id = get_weather['weather'][0]['id'].to_i
-  end
-
-  def get_weather
-    if by_geocode?
-      Current.geocode(lat, long, OPEN_WEATHER_OPTIONS)
-    elsif by_city?
-      Current.city(city_country, OPEN_WEATHER_OPTIONS)
-    end
-  end
-
-  def temperature
-    @weather['main']['temp'].to_i
+  def initialize(open_weather_hash, timezone_offset, sunrise, sunset)
+    @sunrise = sunrise
+    @sunset = sunset
+    process(open_weather_hash, timezone_offset)
+    @clothing = nil
   end
 
   def sunny?
-    current_time = @weather['dt']
-    sunrise = @weather['sys']['sunrise']
-    sunset = @weather['sys']['sunset']
-    @weather_id == CLEAR_SKY && sunrise < current_time && current_time < sunset
+    @condition_id == CLEAR_SKY && sunrise < time && time < sunset
   end
 
   def rainy?
-    WET_CONDITIONS.include?(@weather_id)
+    WET_CONDITIONS.include?(@condition_id)
   end
 
   def condition
     if rainy?
-      @condition_id = HUMANS_RAIN
+      HUMANS_RAIN
     elsif sunny?
-      @condition_id = CLEAR_SKY
+      CLEAR_SKY
     else
-      @condition_id = UNTRACKED_CONDITION
+      UNTRACKED_CONDITION
     end
   end
 
   # this rather pedantic method is used in determining the background image to load
   def condition_category_name
-    if THUNDERSTORM.include?(@weather_id)
+    if THUNDERSTORM.include?(@condition_id)
       'thunderstorm'
-    elsif DRIZZLE.include?(@weather_id)
+    elsif DRIZZLE.include?(@condition_id)
       'drizzle'
-    elsif RAIN.include?(@weather_id)
+    elsif RAIN.include?(@condition_id)
       'rain'
-    elsif SNOW.include?(@weather_id)
+    elsif SNOW.include?(@condition_id)
       'snow'
     else
       'sunshine'
@@ -78,11 +56,11 @@ class Weather
   end
 
   private
-    def by_geocode?
-      lat && long
-    end
 
-    def by_city?
-      !city_country.nil?
-    end
+  def process(open_weather_hash, timezone_offset)
+    @time = Time.at(open_weather_hash["dt"]).localtime(timezone_offset)
+    @temperature = open_weather_hash["main"]["temp"].round
+    @condition_id = open_weather_hash["weather"][0]["id"]
+  end
+
 end

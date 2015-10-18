@@ -4,7 +4,6 @@
   }
 </style>
 
-
 <div id="main">
 <div class="container">
   <table>
@@ -13,7 +12,7 @@
       <td></td><td><img class="arrow" src="/images/icons/arrow-up-with-split.svg"/></td><td></td>
     </tr>
     <tr>
-      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td><%=@weather.city_country.nil? ? "Current Location" : @weather.city_country.split(',')[0] %><br>Friday<br>11:30am</td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
+      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td><%=@forecast.city_country.nil? ? "Current Location" : @forecast.city_country.split(',')[0] %><br><%= Date::DAYNAMES[@weather.time.wday] %><br><%= @weather.time.strftime("%l:%M%p") %></td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
     </tr>
     <tr>
       <td></td><td><img class="arrow" src="/images/icons/arrow-down-with-split.svg"/></td><td></td>
@@ -27,43 +26,18 @@
       <div class="twelve column u-full-width timetext">Right now, you need...</div>
     </div>
 
-
-    <div class="row">
-
-    <% clothes_size = @clothes.size %>
-    <% clothing = @clothes.map {|body_part, items| items[0] } %>
-    
-    <% def output_rows(clothes_size, clothing) %>
-      <% if clothes_size == 2 %>
-        <% clothing.each do |item| %>
-          <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-        </div> <!-- end row -->
-      <% elsif clothes_size == 4 %>
-        <% clothing.each do |item| %>
-          <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-        </div> <!-- end row -->
-      <% else %>
-        <% clothing[0..2].each do |item| %>
-          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-        </div> <!-- end row -->
-        <% return if clothes_size == 1 || clothes_size - 3 == 0 %>
-        <% remaining_clothes = clothing[3..-1] %>
-        <% remaining_size = clothes_size - 3 %>
+    <%= erb :"partials/_image_rows", locals: {clothes: @all_clothes[0]} %>
+    <% @all_clothes[1..-1].each_with_index do |clothes, i| %>
+      <% unless clothes.empty? %>
         <div class="row">
-        <% output_rows(remaining_size, remaining_clothes) %>
+          <div class="twelve column u-full-width timetext">...and at <%= @all_weather[i+1].time.strftime("%l:%M%p") %> you'll need...</div>
+        </div>
+
+        <%= erb :"partials/_image_rows", locals: {clothes: clothes} %>
       <% end %>
     <% end %>
 
-    <% output_rows(clothes_size, clothing) %>
-
-      
-
-  </div>
-</section>
-
+  </section>
 <div class="row">
   <div class="twelve column u-full-width footer"></div>
 </div>

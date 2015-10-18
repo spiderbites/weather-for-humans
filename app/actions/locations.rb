@@ -1,35 +1,41 @@
 require 'json'
 
 helpers do
-  def get_clothing
+  def get_clothing(weather)
     body_parts = Wearable.get_body_parts
 
     clothes = body_parts.reduce({}) do |a, e|
-      appropriate_clothes = Wearable.get_appropriate_clothing(e, { gender: "M" }, @weather)
+      appropriate_clothes = Wearable.get_appropriate_clothing(e, { gender: "M" }, weather)
       a[e] = appropriate_clothes unless appropriate_clothes.empty?
       a
     end
     extras = body_parts.reduce({}) do |a,e|
-      appropriate_extras = Wearable.need_extras(e, @weather)
+      appropriate_extras = Wearable.need_extras(e, weather)
       a[e] = appropriate_extras unless appropriate_extras.empty?
       a
     end
-    puts @weather
-    puts clothes.merge!(extras)
     all_items = clothes.merge!(extras)
   end
-
 end
 
 get '/location/:city_country' do
-  @weather = Weather.new(params)
-  @clothes = get_clothing
-  erb :location
+  @forecast = Forecast.new(params, 4)
+  
+  @weather = @forecast.forecast[0]
+  @all_weather = @forecast.forecast
+
+  @clothes = get_clothing(@weather) 
+  
+  clothes_list = @all_weather.map{ |weather| get_clothing(weather) }
+  @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
+
+  puts "ALL WEATHER " + @all_weather.inspect
+  puts "ALL CLOTHES " + @all_clothes.inspect
+
+  erb :"location.forecast_model"
 end
 
 get '/location' do
-  @weather = Weather.new(params)
-  @clothes = get_clothing
   erb :location
 end
 
