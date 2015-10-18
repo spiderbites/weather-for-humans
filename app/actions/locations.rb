@@ -16,6 +16,7 @@ helpers do
     end
     all_items = clothes.merge(extras)
   end
+
 end
 
 get '/location/:city_country' do

@@ -32,57 +32,34 @@
 
     <% clothes_size = @clothes.size %>
     <% clothing = @clothes.map {|body_part, items| items[0] } %>
-    <% if clothes_size == 2 %>
-
-      <% clothing.each do |item| %>
-        <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-      </div> <!-- end row -->
-
-    <% elsif clothes_size == 4 %>
-      <% clothing.each do |item| %>
-        <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-
-      </div> <!-- end row -->
-
-    <% elsif [3, 5, 6, 7].include?(clothes_size) %>
-
-      <% clothing[0..2].each do |item| %>
-          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-
-      </div> <!-- end row -->
-
-      <% if clothes_size == 5 %>
-
-        <div class="row">
-
-        <% clothing[3..4].each do |item| %>
+    
+    <% def output_rows(clothes_size, clothing) %>
+      <% if clothes_size == 2 %>
+        <% clothing.each do |item| %>
           <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
         <% end %>
-
         </div> <!-- end row -->
-
-      <% elsif clothes_size == 6 %>
-
-        <div class="row">
-
-        <% clothing[3..5].each do |item| %>
-          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-
-      <% elsif clothes_size == 7 %>
-
-        <div class="row">
-
-        <% clothing[3..6].each do |item| %>
+      <% elsif clothes_size == 4 %>
+        <% clothing.each do |item| %>
           <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
         <% end %>
-
         </div> <!-- end row -->
+      <% else %>
+        <% clothing[0..2].each do |item| %>
+          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
+        <% end %>
+        </div> <!-- end row -->
+        <% return if clothes_size == 1 || clothes_size - 3 == 0 %>
+        <% remaining_clothes = clothing[3..-1] %>
+        <% remaining_size = clothes_size - 3 %>
+        <div class="row">
+        <% output_rows(remaining_size, remaining_clothes) %>
       <% end %>
     <% end %>
+
+    <% output_rows(clothes_size, clothing) %>
+
+      
 
   </div>
 </section>
