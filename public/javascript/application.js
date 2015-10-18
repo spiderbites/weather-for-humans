@@ -49,23 +49,27 @@ function getLocationAndRedirect() {
   var init = function(data) {
     diurnalCycles = data;
     counters.max = { days: data.length,
-                     cycles: data[0].cycle.length };
+                     cycles: data[0].main.length };
   }
 
   var getDay = function() {
-    return diurnalCycles[currentDay()].day;
+    return 'Monday'
+    // return diurnalCycles[currentDay()].day;
   }
 
   var getTime = function() {
-    return diurnalCycles[currentDay()].cycle[currentCycle()].time
+    return 50
+    // return diurnalCycles[currentDay()].cycle[currentCycle()].time
   }
 
   var getTemperature = function() {
-    return diurnalCycles[currentDay()].cycle[currentCycle()].temperature
+    return 20
+    // return diurnalCycles[currentDay()].cycle[currentCycle()].temperature
   }
 
   var getClothes = function() {
-    return diurnalCycles[currentDay()].cycle[currentCycle()].clothes
+    return diurnalCycles[currentDay()].main
+    // return diurnalCycles[currentDay()].cycle[currentCycle()].clothes
   }
 
 
