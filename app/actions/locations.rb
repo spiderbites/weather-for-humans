@@ -2,10 +2,14 @@ require 'json'
 
 get '/location/:city_country/data' do
   content_type :json
+  DiurnalCycles.initialize(params.merge(duration: 4))
 
-  @weather = ForecastWeather.new(params)
-  forecast = @weather.get_three_day_forecast
-  forecast.to_json
+  @clothes = DiurnalCycles.cycles.map do |cycle|
+    cycle.cycle.map do |weather|
+      WeatherAppropriateClothing.new({ gender: 'M', weather: weather })
+    end
+  end
+  @clothes.to_json
 end
 
 get '/location/:city_country' do
@@ -20,4 +24,15 @@ end
 
 post '/location' do
   redirect "location/#{params[:city_country]}"
+end
+
+get '/kevin' do
+  DiurnalCycles.initialize({ city_country: 'Moscow,Russia',
+                             duration: 3 })
+  @clothes = DiurnalCycles.cycles.map do |cycle|
+    cycle.cycle.map do |weather|
+      WeatherAppropriateClothing.new({ gender: 'M', weather: weather })
+    end
+  end
+  erb :kevin
 end

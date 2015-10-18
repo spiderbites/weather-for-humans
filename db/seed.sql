@@ -18,4 +18,3 @@ UNION ALL SELECT 'shoes','feet',6,24,'U', null
 UNION ALL SELECT 'sandals','feet',25,1000,'U', null
 UNION ALL SELECT 'sunglasses','eyes',null, null,'U','800'
 UNION ALL SELECT 'umbrella','overhead',null,null,'U', '400';
-

@@ -1,5 +1,14 @@
-<div class="day"></div>
-<div class="time"></div>
-<div class="temperature" data-temperature="<%=@temparature.to_json%>"></div>
-<div class="clothes"></div>
-<div class='tiles'></div>
+Hello World
+
+<hr/>
+<%=DiurnalCycles.city_country%>
+<hr/>
+Time: <%=DiurnalCycles.forecast['list'][0]['dt'].to_s%>
+<hr/>
+Temperature: <%=DiurnalCycles.forecast['list'][0]['main']['temp']%>
+<hr/>
+Weather ID: <%=DiurnalCycles.forecast['list'][0]['weather'][0]['id']%>
+<hr/>
+Cycle: <%=DiurnalCycles.cycles.to_json%>
+<hr/>
+Clothes: <%=@clothes%>

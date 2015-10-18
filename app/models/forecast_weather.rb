@@ -1,7 +1,39 @@
+require 'open_weather'
+
 class ForecastWeather < Weather
+  @@forecasts = []
 
   def initialize(config)
-    super(config)
+    @temperature = config[:temperature]
+    super
+  end
+
+  def temperature
+    @temperature
+  end
+
+  def self.create(config)
+    w = ForecastWeather.new(config)
+    @@forecasts << w
+    w
+  end
+
+  def self.do_forecast
+    @@forecast = OpenWeather::Forecast.city('Moscow,Russia', OPEN_WEATHER_OPTIONS)
+    day = (0..6).to_a
+    body_parts = Wearable.get_body_parts
+
+    cycle = day.map do |i|
+      temperature = @@forecast['list'][i]['main']['temp']
+      config = {
+        city_country: 'Moscow,Russia',
+        time: DateTime.strptime(@@forecast['list'][i]['dt'].to_s, '%s'),
+        temperature: temperature,
+        weather_id: @@forecast['list'][i]['weather'][0]['id']
+        # clothes: get_clothing(temperature).values.map { |e| e[0] }
+      }
+      create(config)
+    end
   end
 
   def get_forecast
