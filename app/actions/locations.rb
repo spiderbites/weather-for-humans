@@ -19,7 +19,7 @@ helpers do
 end
 
 get '/location/:city_country' do
-  @forecast = Forecast.new(params, 1)
+  @forecast = Forecast.new(params, 4)
   
   @weather = @forecast.forecast[0] #Weather.new(params)
   @all_weather = @forecast.forecast

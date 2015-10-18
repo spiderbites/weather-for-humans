@@ -1,25 +1,21 @@
-<div class="row">
+<% clothes_size = clothes.size %>
+<% clothing = clothes.map {|body_part, items| items[0] } %>
 
-  <% clothes_size = clothes.size %>
-  <% clothing = clothes.map {|body_part, items| items[0] } %>
-  
-  <% if clothes_size == 1 %> 
-    <%= erb :"partials/_one_image", locals: {clothes_item: clothing[0]} %>
-  <% elsif clothes_size == 2 %>
-    <%= erb :"partials/_two_images", locals: {clothing: clothing} %>
-  <% elsif clothes_size == 3 %>
-    <%= erb :"partials/_three_images", locals: {clothing: clothing} %>
-  <% elsif clothes_size == 4 %>
-    <%= erb :"partials/_four_images", locals: {clothing: clothing} %>
-  <% elsif clothes_size == 5 %>
-    <%= erb :"partials/_three_images", locals: {clothing: clothing[0..2]} %>
-    <%= erb :"partials/_two_images", locals: {clothing: clothing[3..4]} %>
-  <% elsif clothes_size == 6 %>
-    <%= erb :"partials/_three_images", locals: {clothing: clothing[0..2]} %>
-    <%= erb :"partials/_three_images", locals: {clothing: clothing[3..5]} %>
-  <% elsif clothes_size == 7 %>
-    <%= erb :"partials/_three_images", locals: {clothing: clothing[0..2]} %>
-    <%= erb :"partials/_four_images", locals: {clothing: clothing[3..6]} %>
-  <% end %> 
-
-</div>
+<% if clothes_size == 1 %> 
+  <%= erb :"partials/_one_image", locals: {clothes_item: clothing[0]} %>
+<% elsif clothes_size == 2 %>
+  <%= erb :"partials/_two_images", locals: {clothing: clothing} %>
+<% elsif clothes_size == 3 %>
+  <%= erb :"partials/_three_images", locals: {clothing: clothing} %>
+<% elsif clothes_size == 4 %>
+  <%= erb :"partials/_four_images", locals: {clothing: clothing} %>
+<% elsif clothes_size == 5 %>
+  <%= erb :"partials/_three_images", locals: {clothing: clothing[0..2]} %>
+  <%= erb :"partials/_two_images", locals: {clothing: clothing[3..4]} %>
+<% elsif clothes_size == 6 %>
+  <%= erb :"partials/_three_images", locals: {clothing: clothing[0..2]} %>
+  <%= erb :"partials/_three_images", locals: {clothing: clothing[3..5]} %>
+<% elsif clothes_size == 7 %>
+  <%= erb :"partials/_three_images", locals: {clothing: clothing[0..2]} %>
+  <%= erb :"partials/_four_images", locals: {clothing: clothing[3..6]} %>
+<% end %> 
