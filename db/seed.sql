@@ -16,8 +16,8 @@ UNION ALL SELECT 'shorts','legs',22,1000,'U', 0
 UNION ALL SELECT 'winter-boots','feet',-274,5,'U', 0
 UNION ALL SELECT 'shoes','feet',6,24,'U', 0
 UNION ALL SELECT 'sandals','feet',25,1000,'U', 0
-UNION ALL SELECT 'sunglasses','eyes',null,null,'U','800'
-UNION ALL SELECT 'umbrella','overhead',null,null,'U', '400'
+UNION ALL SELECT 'sunglasses','eyes','x','x','U','800'
+UNION ALL SELECT 'umbrella','overhead','x','x','U', '400'
 UNION ALL SELECT 'rainboots','feet',6,24,'U', '400'
 UNION ALL SELECT 'raincoat','body-layer-4',6,10,'U', '400';
 

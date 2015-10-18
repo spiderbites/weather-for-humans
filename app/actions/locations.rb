@@ -14,7 +14,7 @@ helpers do
       a[e] = appropriate_extras unless appropriate_extras.empty?
       a
     end
-    puts @weather
+    puts @weather.condition
     puts clothes.merge!(extras)
     all_items = clothes.merge!(extras)
   end
