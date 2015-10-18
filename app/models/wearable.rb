@@ -32,8 +32,3 @@ class Wearable < ActiveRecord::Base
     end
 
 end
-
-
-
-{"body-layer-4"=>["light-jacket"], "legs"=>["pants"], "feet"=>["shoes"]}
-{"body-layer-4"=>["light-jacket"], "legs"=>["pants"], "feet"=>["shoes"], "overhead"=>["umbrella"]}
