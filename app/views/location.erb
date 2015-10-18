@@ -26,129 +26,13 @@
       <div class="twelve column u-full-width timetext">Right now, you need...</div>      
     </div>
 
-
-    <div class="row">
-    
-    <% clothes_size = @clothes.size %>
-    <% clothing = @clothes.map {|body_part, items| items[0] } %>
-    <% if clothes_size == 2 %>
-
-      <% clothing.each do |item| %>
-        <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-      </div> <!-- end row -->
-
-    <% elsif clothes_size == 4 %>
-      <% clothing.each do |item| %>
-        <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-
-      </div> <!-- end row -->
-
-    <% elsif [3, 5, 6, 7].include?(clothes_size) %>
-
-      <% clothing[0..2].each do |item| %>
-          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-
-      </div> <!-- end row -->
-
-      <% if clothes_size == 5 %>
-
-        <div class="row">
-
-        <% clothing[3..4].each do |item| %>
-          <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-
-        </div> <!-- end row -->
-
-      <% elsif clothes_size == 6 %>
-        
-        <div class="row">
-
-        <% clothing[3..5].each do |item| %>
-          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-
-      <% elsif clothes_size == 7 %>
-        
-        <div class="row">
-
-        <% clothing[3..6].each do |item| %>
-          <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-        
-        </div> <!-- end row -->
-      <% end %>
-    <% end %>
-
-  </div>
+    <%= erb :"partials/_image_rows", locals: {clothes: @clothes} %>
 
     <div class="row">
       <div class="twelve column u-full-width timetext">But bring this for later...</div>      
     </div>
 
-
-    <div class="row">
-    <% clothes_size = @all_clothes[1].size %>
-    <% clothing = @all_clothes[1].map {|body_part, items| items[0] } %>
-    
-    <% if clothes_size == 1 %>      
-      <div class="twelve column box"><img class="u-max-full-width" src='/images/icons/<%=clothing[0]%>.svg' alt='<%=clothing[0]%>.svg'></div> 
-
-
-    <% elsif clothes_size == 2 %>
-
-      <% clothing.each do |item| %>
-        <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-      </div> <!-- end row -->
-
-    <% elsif clothes_size == 4 %>
-      <% clothing.each do |item| %>
-        <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-
-      </div> <!-- end row -->
-
-    <% elsif [3, 5, 6, 7].include?(clothes_size) %>
-
-      <% clothing[0..2].each do |item| %>
-          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-      <% end %>
-
-      </div> <!-- end row -->
-
-      <% if clothes_size == 5 %>
-
-        <div class="row">
-
-        <% clothing[3..4].each do |item| %>
-          <div class="one-half column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-
-        </div> <!-- end row -->
-
-      <% elsif clothes_size == 6 %>
-        
-        <div class="row">
-
-        <% clothing[3..5].each do |item| %>
-          <div class="one-third column box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-
-      <% elsif clothes_size == 7 %>
-        
-        <div class="row">
-
-        <% clothing[3..6].each do |item| %>
-          <div class="three columns box"><img class="u-max-full-width" src='/images/icons/<%=item%>.svg' alt='<%=item%>.svg'></div>
-        <% end %>
-        
-        </div> <!-- end row -->
-      <% end %>
-    <% end %>
+    <%= erb :"partials/_image_rows", locals: {clothes: @all_clothes[1]} %>
 
   </div>
 
