@@ -1,9 +1,3 @@
-class Hash
-  def &(other)
-    select { |k, v| other[k] != v }
-  end
-end
-
 class WeatherAppropriateClothing
   attr_reader :config, :items
 
@@ -30,7 +24,7 @@ class WeatherAppropriateClothing
       unique_keys.reduce({}) do |memo, body_part|
         # Given a key, use it to query the entire array of hashes and do a union
         # over all the corresponding values so that only unique values remain.
-        result = all.reduce(nil) { |acc, e| !acc.nil? ? acc | [e[key]] : [e[key]] }
+        result = all.reduce(nil) { |acc, e| !acc.nil? ? acc | [e[body_part]] : [e[body_part]] }
         # remove nil from those results as well as any value that corresponds to
         # the set of clothing of the current weather forecast
         result = result.select { |e| !e.nil? && all[0][body_part] != e }
