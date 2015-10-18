@@ -19,13 +19,15 @@ helpers do
 end
 
 get '/location/:city_country' do
-  @weather = Weather.new(params)
+  @forecast = Forecast.new(params, 0) # only get current temp for now
+  @weather = @forecast.forecast[0] #Weather.new(params)
   @clothes = get_clothing
   erb :location
 end
 
 get '/location' do
-  @weather = Weather.new(params)
+  @forecast = Forecast.new(params, 0) # only get current temp for now
+  @weather = @forecast.forecast[0] #Weather.new(params)
   @clothes = get_clothing
   erb :location
 end

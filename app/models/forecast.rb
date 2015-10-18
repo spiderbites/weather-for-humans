@@ -9,9 +9,9 @@ class Forecast
   attr_reader :forecast, :lat, :lon, :city_country, :num_slices, :sunrise, :sunset, :place_name
 
   # initialize a forecast object with the desired number of weather time slices
-  # must be between 1 and 40.  the first item of @forecast is the current weather
-  # followed by 1-40 future forecasts for every 3 hours
-  def initialize(config, num_slices = 1)
+  # must be between 0 and 40.  if 0, @forecast only contains the current weather.
+  # otherwise it is followed by 1-40 future forecasts for every 3 hours
+  def initialize(config, num_slices = 0)
     @lat = config[:lat]
     @lon = config[:lon]
     @city_country = config[:city_country]
@@ -26,10 +26,10 @@ class Forecast
     # do two api calls, one for the current weather, one for weather forecast  
     if by_geocode?
       current_forecast = OpenWeather::Current.geocode(lat, lon, OPEN_WEATHER_OPTIONS)
-      full_forecast = OpenWeather::Forecast.geocode(lat, lon, OPEN_WEATHER_OPTIONS)
+      full_forecast = num_slices == 0 ? nil : OpenWeather::Forecast.geocode(lat, lon, OPEN_WEATHER_OPTIONS)
     elsif by_city?
       current_forecast = OpenWeather::Current.city(city_country, OPEN_WEATHER_OPTIONS)
-      full_forecast = OpenWeather::Forecast.city(city_country, OPEN_WEATHER_OPTIONS)
+      full_forecast = num_slices == 0 ? nil : OpenWeather::Forecast.city(city_country, OPEN_WEATHER_OPTIONS)
     end
 
     timezone = GeoNamesAPI::TimeZone.find(current_forecast["coord"]["lat"], current_forecast["coord"]["lon"])
@@ -38,7 +38,7 @@ class Forecast
     offset = Forecast.format_offset(timezone.dst_offset)
 
     # we only want num_slices of the full forecast
-    desired_results = full_forecast["list"][0..num_slices - 1]
+    desired_results = num_slices == 0 ? nil : full_forecast["list"][0..num_slices - 1]
 
     # we also set some variables related to the current location
     unless lat && lon
@@ -52,8 +52,11 @@ class Forecast
 
     # add Weather objects to @forecast array
     forecast << Weather.new(current_forecast, offset, sunrise, sunset)
-    desired_results.each do |weather_data|
-      forecast << Weather.new(weather_data, offset, sunrise, sunset)
+    
+    if num_slices > 0
+      desired_results.each do |weather_data|
+        forecast << Weather.new(weather_data, offset, sunrise, sunset)
+      end
     end
 
     @forecast = forecast
@@ -103,8 +106,8 @@ class Forecast
     end
 
     def num_slices_init(num_slices)
-      if num_slices <= 1
-        1
+      if num_slices <= 0
+        0
       elsif num_slices >= 40
         40
       else

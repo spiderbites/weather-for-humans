@@ -32,16 +32,17 @@ class Weather
 
   def condition
     if rainy?
-      @condition_id = HUMANS_RAIN
+      HUMANS_RAIN
     elsif sunny?
-      @condition_id = CLEAR_SKY
+      CLEAR_SKY
     else
-      @condition_id = UNTRACKED_CONDITION
+      UNTRACKED_CONDITION
     end
   end
 
   # this rather pedantic method is used in determining the background image to load
   def condition_category_name
+    puts @condition_id
     if THUNDERSTORM.include?(@condition_id)
       'thunderstorm'
     elsif DRIZZLE.include?(@condition_id)
