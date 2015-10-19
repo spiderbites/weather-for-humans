@@ -7,7 +7,6 @@ html, body {
   max-width: 800px; 
   bottom: 0;
   height: 100%;
-  overflow: auto;
 }
 
 .main-header {
@@ -82,7 +81,7 @@ img {
 
 .footer {
   height:50px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   text-align: left;
@@ -156,7 +155,7 @@ section {
 #main:after {
     content : "";
     display: block;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     background-image: url(/images/backgrounds/sunshine.jpg); 
