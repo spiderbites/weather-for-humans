@@ -37,15 +37,21 @@ td {
 
 td .leftarrow {
   float: right;
+  display: none;
 }
 
 td .rightarrow {
   float: left;
+  display: none;
+}
+
+.arrow {
+  display: none;
 }
 
 .column .arrow {
   margin-top: 50%;
-  margin-bottom: 50%;     
+  margin-bottom: 50%;
 }
 
 img {
@@ -166,5 +172,9 @@ section {
   font-weight: bold;
   color: black;
   font-size: 150%;
+}
 
+span.cityname {
+  font-weight: bold;
+  font-size: 1.4em;
 }

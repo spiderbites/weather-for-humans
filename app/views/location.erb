@@ -17,7 +17,7 @@
       <td></td><td><img class="arrow" src="/images/icons/arrow-up-with-split.svg"/></td><td></td>
     </tr>
     <tr>
-      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td><%=@forecast.city_country.nil? ? "Current Location" : @forecast.city_country.split(',')[0] %><br><%= Date::DAYNAMES[@all_weather[0].time.wday] %><br><%= @all_weather[0].time.strftime("%l:%M%p") %></td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
+      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td><span class="cityname"><%=@forecast.city_country.nil? ? "Current Location" : @forecast.city_country.split(',')[0] %></span><br><%= Date::DAYNAMES[@all_weather[0].time.wday] %><br><%= @all_weather[0].time.strftime("%l:%M%p") %></td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
     </tr>
     <tr>
       <td></td><td><img class="arrow" src="/images/icons/arrow-down-with-split.svg"/></td><td></td>
