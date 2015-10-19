@@ -1,7 +1,12 @@
 <style>
   #main:after {
     background-image: url("/images/backgrounds/<%= @weather.condition_category_name %>.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    overflow-y: scroll;
   }
+
 </style>
 
 <div id="main">
@@ -38,8 +43,12 @@
     <% end %>
 
   </section>
+  
+</div>
 <div class="row">
-  <div class="twelve column u-full-width footer"></div>
-</div>
-</div>
+    <div class="twelve column u-full-width footer">
+      <a href="/" id="home_link">Elsewhere?</a>
+    </div>
+  </div> <!--  row end -->
+
 </div>
