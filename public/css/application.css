@@ -36,6 +36,7 @@ td {
 td.text {
   background-color: white;
   padding: 10px;
+  border-radius: 5px;
 }
 
 td .leftarrow {
@@ -154,6 +155,7 @@ span.cityname {
 span.time_text {
   background-color: white;
   padding: 10px;
+  border-radius: 5px;
 }
 
 input {
@@ -179,5 +181,4 @@ input {
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
-  overflow-y: scroll;
 }
