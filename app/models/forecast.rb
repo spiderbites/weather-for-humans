@@ -4,7 +4,8 @@ require_relative 'weather'
 
 class Forecast
 
-  OPEN_WEATHER_OPTIONS = { units: "metric", APPID: "6abf19846581534bbc16870d18044ddf" }
+  OPEN_WEATHER_OPTIONS = { units: "metric", APPID: "66cd0a1a0f9e1272ae428b4f5a9a1e9c" }
+  GeoNamesAPI.username = "joshzucker"
 
   attr_reader :forecast, :lat, :lon, :city_country, :num_slices, :sunrise, :sunset, :place_name
 
