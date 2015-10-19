@@ -81,10 +81,15 @@ class Forecast
     offset = offset.split(".")
 
     # get the hour, prepending a '0' if necessary
-    hour = offset[0].length == 1 ? '0'+offset[0] : offset[0]
+    hour = offset[0].length == 1 ? '0' + offset[0] : offset[0]
 
     # get the minutes, convert from e.g. 75 to 45 if necessary...  (see kathmandu above)
-    mins = offset.length == 1 ? '00' : (offset[1].to_i * 0.6).to_i.to_s
+    if offset.length == 1
+      mins = '00'
+    else
+      mins = (offset[1].to_i * 0.6).to_i.to_s
+      mins = mins.length == 1 ? '0' + mins : mins
+    end
 
     sign + hour + ":" + mins
   end
