@@ -19,28 +19,15 @@ helpers do
 end
 
 get '/location/:city_country' do
-  @forecast = Forecast.new(params, 4)
-  
-  @weather = @forecast.forecast[0]
+  @forecast = Forecast.new(params, 4) # grab four future forecasts
   @all_weather = @forecast.forecast
-
-  @clothes = get_clothing(@weather) 
-  
-  clothes_list = @all_weather.map{ |weather| get_clothing(weather) }
   @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
-
   erb :"location"
 end
 
 get '/location' do
   @forecast = Forecast.new(params, 4)
-  
-  @weather = @forecast.forecast[0]
   @all_weather = @forecast.forecast
-
-  @clothes = get_clothing(@weather) 
-  
-  clothes_list = @all_weather.map{ |weather| get_clothing(weather) }
   @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
   erb :location
 end
