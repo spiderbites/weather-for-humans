@@ -1,26 +1,22 @@
 <style>
+  /*body {*/
   #main:after {
     background-image: url("/images/backgrounds/<%= @all_weather[0].condition_category_name %>.jpg");
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    overflow-y: scroll;
   }
-
 </style>
 
 <div id="main">
 <div class="container">
+      <form id="search-bar" action="/location" method="post" enctype="multipart/form-data">
+      <input class="u-full-width" type="text" name="city_country" placeholder="search again..." id="f_elem_city"/>
+      </form>
+
   <table>
-  <tbody>
+  <tbody>    
     <tr>
-      <td></td><td><img class="arrow" src="/images/icons/arrow-up-with-split.svg"/></td><td></td>
-    </tr>
-    <tr>
-      <td><img class="leftarrow" src="/images/icons/arrow-left-with-split.svg"/></td><td><span class="cityname"><%=@forecast.city_country.nil? ? "Current Location" : @forecast.city_country.split(',')[0] %></span><br><%= Date::DAYNAMES[@all_weather[0].time.wday] %><br><%= @all_weather[0].time.strftime("%l:%M%p") %></td><td><img class="rightarrow" src="/images/icons/arrow-right-with-split.svg"/></td>
-    </tr>
-    <tr>
-      <td></td><td><img class="arrow" src="/images/icons/arrow-down-with-split.svg"/></td><td></td>
+      <td class="text"><span class="cityname"><%=@forecast.city_country.nil? ? "Current Location" : @forecast.city_country.split(',')[0] %></span></td>
+      <td></td>
+      <td class="text"><span class="time_text"><%= Date::DAYNAMES[@all_weather[0].time.wday] %>, <%= @all_weather[0].time.strftime("%l:%M%p") %></span></td>
     </tr>
     </tbody>
   </table>
@@ -28,14 +24,14 @@
   <section>
 
     <div class="row">
-      <div class="twelve column u-full-width timetext">Right now, you need...</div>
+      <div class="twelve column u-full-width timetext"><span class="time_text">Right now, you need...</span></div>
     </div>
 
     <%= erb :"partials/_image_rows", locals: {clothes: @all_clothes[0]} %>
     <% @all_clothes[1..-1].each_with_index do |clothes, i| %>
       <% unless clothes.empty? %>
         <div class="row">
-          <div class="twelve column u-full-width timetext">...and at <%= @all_weather[i+1].time.strftime("%l:%M%p") %> you'll need...</div>
+          <div class="twelve column u-full-width timetext"><span class="time_text">...and at <%= @all_weather[i+1].time.strftime("%l:%M%p") %> you'll need...</span></div>
         </div>
 
         <%= erb :"partials/_image_rows", locals: {clothes: clothes} %>
@@ -45,10 +41,4 @@
   </section>
   
 </div>
-<div class="row">
-    <div class="twelve column u-full-width footer">
-      <a href="/" id="home_link">Elsewhere?</a>
-    </div>
-  </div> <!--  row end -->
-
 </div>
