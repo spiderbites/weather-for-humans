@@ -5,7 +5,6 @@ html, body {
 .container {
   max-width: 800px; 
   bottom: 0;
-  height: 100%;
 }
 
 .main-header {
