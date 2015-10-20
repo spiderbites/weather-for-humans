@@ -23,7 +23,7 @@ task "db:seed" do
     exec 'sqlite3 db/db.sqlite3 < db/seed.sql'
     puts 'database populated should be populated if you don\'t see an error message.'
   elsif production?
-    exec "pg ENV['DATABASE_URL'] < db/seed.sql"
+    exec "pg " + :database + " < db/seed.sql"
   end
 end
 
