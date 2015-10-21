@@ -2,7 +2,7 @@ require 'net/http'
 
 class Autocompleter
 
-  GEOBYTES_URI = "http://gd.geobytes.com/AutoCompleteCity?callback=?&q="
+  GEOBYTES_URI = "http://gd.geobytes.com/AutoCompleteCity?q="
 
   def self.complete(q)
     uri = URI(GEOBYTES_URI + q)

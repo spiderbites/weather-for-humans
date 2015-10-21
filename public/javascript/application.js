@@ -14,11 +14,12 @@ $(document).ready(function() {
   }
 
   // This code from: http://www.geobytes.com/free-ajax-cities-jsonp-api
+  // except that we are making the actual call server-side
   jQuery(function () {
      jQuery("#f_elem_city").autocomplete({
       source: function (request, response) {
        jQuery.getJSON(
-        "http://gd.geobytes.com/AutoCompleteCity?callback=?&q="+request.term,
+        "/autocomplete/"+request.term,
         function (data) {
          response(data);
         }
