@@ -1,7 +1,7 @@
 <style>
   /*body {*/
   #main:after {
-    background-image: url("/images/backgrounds/<%= @all_weather[0].condition_category_name %>.jpg");
+    background-image: url("/images/backgrounds/<%= background %>.jpg");
   }
 </style>
 
@@ -10,35 +10,40 @@
       <form id="search-bar" action="/location" method="post" enctype="multipart/form-data">
       <input class="u-full-width" type="text" name="city_country" placeholder="search again..." id="f_elem_city"/>
       </form>
-
-  <table>
-  <tbody>    
-    <tr>
-      <td class="text"><span class="cityname"><%=@forecast.city_country.nil? ? "Current Location" : @forecast.city_country.split(',')[0] %></span></td>
-      <td></td>
-      <td class="text"><span class="time_text"><%= Date::DAYNAMES[@all_weather[0].time.wday] %>, <%= @all_weather[0].time.strftime("%l:%M%p") %></span></td>
-    </tr>
-    </tbody>
-  </table>
-
-  <section>
-
+  <% unless @error.nil? %>
     <div class="row">
-      <div class="twelve column u-full-width timetext"><span class="time_text">Right now, you need...</span></div>
+      <div class="twelve column u-full-width timetext"><span class="cityname"><%= @error %></span></div>
     </div>
+  <% else %>
+    <table>
+    <tbody>    
+      <tr>
+        <td class="text"><span class="cityname"><%=@forecast.city_country.nil? ? "Current Location" : @forecast.city_country.split(',')[0] %></span></td>
+        <td></td>
+        <td class="text"><span class="time_text"><%= Date::DAYNAMES[@all_weather[0].time.wday] %>, <%= @all_weather[0].time.strftime("%l:%M%p") %></span></td>
+      </tr>
+      </tbody>
+    </table>
 
-    <%= erb :"partials/_image_rows", locals: {clothes: @all_clothes[0]} %>
-    <% @all_clothes[1..-1].each_with_index do |clothes, i| %>
-      <% unless clothes.empty? %>
-        <div class="row">
-          <div class="twelve column u-full-width timetext"><span class="time_text">...and at <%= @all_weather[i+1].time.strftime("%l:%M%p") %> you'll need...</span></div>
-        </div>
+    <section>
 
-        <%= erb :"partials/_image_rows", locals: {clothes: clothes} %>
+      <div class="row">
+        <div class="twelve column u-full-width timetext"><span class="time_text">Right now, you need...</span></div>
+      </div>
+
+      <%= erb :"partials/_image_rows", locals: {clothes: @all_clothes[0]} %>
+      <% @all_clothes[1..-1].each_with_index do |clothes, i| %>
+        <% unless clothes.empty? %>
+          <div class="row">
+            <div class="twelve column u-full-width timetext"><span class="time_text">...and at <%= @all_weather[i+1].time.strftime("%l:%M%p") %> you'll need...</span></div>
+          </div>
+
+          <%= erb :"partials/_image_rows", locals: {clothes: clothes} %>
+        <% end %>
       <% end %>
-    <% end %>
 
-  </section>
+    </section>
+  <% end %>
   
 </div>
 </div>

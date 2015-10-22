@@ -35,9 +35,11 @@ class Forecast
     if current_forecast.nil?
       raise NoWeatherError.new(city_country, lat, lon)
     end
-    
+      
     full_forecast = get_weather(current=false)
-    
+    # we only want num_slices of the full forecast
+    full_forecast = num_slices == 0 ? nil : full_forecast["list"][0..num_slices - 1]
+
     # set lat, lon, city_country vars where we lack that info
     set_place_vars(current_forecast)
 
@@ -46,19 +48,14 @@ class Forecast
     # TODO: determine when to use DST offset and when to use GMT offset
     offset = Forecast.format_offset(timezone.dst_offset)
 
-    # we only want num_slices of the full forecast
-    desired_results = num_slices == 0 ? nil : full_forecast["list"][0..num_slices - 1]
-
     @sunrise = Time.at(current_forecast["sys"]["sunrise"]).localtime(offset)
     @sunset = Time.at(current_forecast["sys"]["sunset"]).localtime(offset)
-
-    @place_name = current_forecast["name"]
 
     # add Weather objects to @forecast array
     forecast << Weather.new(current_forecast, offset, sunrise, sunset)
     
     if num_slices > 0
-      desired_results.each do |weather_data|
+      full_forecast.each do |weather_data|
         forecast << Weather.new(weather_data, offset, sunrise, sunset)
       end
     end
@@ -100,10 +97,10 @@ class Forecast
 
   class NoWeatherError < StandardError
     def initialize(city_country, lat, lon)
-      message = "Hmmm, we couldn't find weather for:"
-      message += " City: #{city_country}" if city_country
-      message += " Latitude: #{lat}" if lat
-      message += " Longitude: #{lon}" if lon
+      message = "Hmmm, we couldn't find weather for"
+      message += " city: #{city_country}" if city_country
+      message += " latitude: #{lat}" if lat
+      message += " longitude: #{lon}" if lon
       super(message)
     end
   end
@@ -135,6 +132,7 @@ class Forecast
         @lat = current_forecast["coord"]["lat"]
         @lon = current_forecast["coord"]["lon"]
       end
+      @place_name = current_forecast["name"]
     end
 
     def by_geocode?

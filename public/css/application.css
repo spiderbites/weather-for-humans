@@ -149,6 +149,7 @@ span.cityname {
   font-size: 1.4em;
   background-color: white;
   padding: 10px;
+  border-radius: 5px;
 }
 
 span.time_text {

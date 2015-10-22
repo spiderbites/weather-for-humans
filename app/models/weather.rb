@@ -21,6 +21,7 @@ class Weather
     process(open_weather_hash, timezone_offset)
     @clothing = nil
   end
+  
 
   def sunny?
     @condition_id == CLEAR_SKY && sunrise < time && time < sunset

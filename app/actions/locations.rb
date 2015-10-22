@@ -16,19 +16,32 @@ helpers do
     end
     all_items = clothes.merge!(extras)
   end
+
+  def background
+    @all_weather ? @all_weather[0].condition_category_name : 'sunshine'
+  end
+
 end
 
 get '/location/:city_country' do
-  @forecast = Forecast.new(params, 4) # grab four future forecasts
-  @all_weather = @forecast.forecast
-  @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
-  erb :"location"
+  begin
+    @forecast = Forecast.new(params, 4) # grab four future forecasts
+    @all_weather = @forecast.forecast
+    @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
+  rescue Forecast::NoWeatherError => e
+    @error = e.message
+  end
+  erb :location
 end
 
 get '/location' do
-  @forecast = Forecast.new(params, 4)
-  @all_weather = @forecast.forecast
-  @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
+  begin
+    @forecast = Forecast.new(params, 4)
+    @all_weather = @forecast.forecast
+    @all_clothes = Wearable.prune(@all_weather.map{ |weather| get_clothing(weather) })
+  rescue Forecast::NoWeatherError => e
+    @error = e.message
+  end
   erb :location
 end
 
