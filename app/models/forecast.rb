@@ -1,11 +1,17 @@
+
 require 'open_weather'
 require 'geonames_api'
+require 'net/http'
+require 'json'
 require_relative 'weather'
 
 class Forecast
 
   OPEN_WEATHER_OPTIONS = { units: "metric", APPID: "66cd0a1a0f9e1272ae428b4f5a9a1e9c" }
   GeoNamesAPI.username = "joshzucker"
+  GEONAMES_API_USER = "joshzucker"
+  
+  CITY_NOT_FOUND = "404"
 
   attr_reader :forecast, :lat, :lon, :city_country, :num_slices, :sunrise, :sunset, :place_name
 
@@ -23,17 +29,19 @@ class Forecast
 
   def setup_forecast
     forecast = []
-    
-    # do two api calls, one for the current weather, one for weather forecast  
-    if by_geocode?
-      current_forecast = OpenWeather::Current.geocode(lat, lon, OPEN_WEATHER_OPTIONS)
-      full_forecast = num_slices == 0 ? nil : OpenWeather::Forecast.geocode(lat, lon, OPEN_WEATHER_OPTIONS)
-      timezone = GeoNamesAPI::TimeZone.find(lat, lon)
-    elsif by_city?
-      current_forecast = OpenWeather::Current.city(city_country, OPEN_WEATHER_OPTIONS)
-      full_forecast = num_slices == 0 ? nil : OpenWeather::Forecast.city(city_country, OPEN_WEATHER_OPTIONS)
-      timezone = GeoNamesAPI::TimeZone.find(current_forecast["coord"]["lat"], current_forecast["coord"]["lon"])
+
+    current_forecast = get_weather
+
+    if current_forecast.nil?
+      raise NoWeatherError.new(city_country, lat, lon)
     end
+    
+    full_forecast = get_weather(current=false)
+    
+    # set lat, lon, city_country vars where we lack that info
+    set_place_vars(current_forecast)
+
+    timezone = GeoNamesAPI::TimeZone.find(lat, lon)
 
     # TODO: determine when to use DST offset and when to use GMT offset
     offset = Forecast.format_offset(timezone.dst_offset)
@@ -41,11 +49,6 @@ class Forecast
     # we only want num_slices of the full forecast
     desired_results = num_slices == 0 ? nil : full_forecast["list"][0..num_slices - 1]
 
-    # we also set some variables related to the current location
-    unless lat && lon
-      @lat = current_forecast["coord"]["lat"]
-      @lon = current_forecast["coord"]["lon"]
-    end
     @sunrise = Time.at(current_forecast["sys"]["sunrise"]).localtime(offset)
     @sunset = Time.at(current_forecast["sys"]["sunset"]).localtime(offset)
 
@@ -95,7 +98,44 @@ class Forecast
     sign + hour + ":" + mins
   end
 
+  class NoWeatherError < StandardError
+    def initialize(city_country, lat, lon)
+      message = "Hmmm, we couldn't find weather for:"
+      message += " City: #{city_country}" if city_country
+      message += " Latitude: #{lat}" if lat
+      message += " Longitude: #{lon}" if lon
+      super(message)
+    end
+  end
+
   private
+
+    def get_weather(current=true)
+      open_weather = current ? OpenWeather::Current : OpenWeather::Forecast
+      if by_geocode?
+        response = open_weather.geocode(lat, lon, OPEN_WEATHER_OPTIONS)  
+      elsif by_city?
+        response = open_weather.city(city_country, OPEN_WEATHER_OPTIONS)
+      end
+      response['cod'] == CITY_NOT_FOUND ? nil : response
+    end
+
+    def geonames_nearby_place(lat,lon)
+      URI("http://api.geonames.org/findNearbyPlaceNameJSON?lat=#{lat}&lng=#{lon}&username=#{GEONAMES_API_USER}")
+    end
+
+    def set_place_vars(current_forecast)
+      if by_geocode? # then we need the city/country
+        res = JSON.parse(Net::HTTP.get(geonames_nearby_place(lat, lon)))
+        puts "CITY COUNTRY... " + res.inspect
+        city = res["geonames"].empty? ? "Unknown" : res["geonames"][0]["name"]
+        country = res["geonames"].empty? ? "Unknown" : res["geonames"][0]["countryName"]
+        @city_country = city + ", " + country
+      elsif by_city? # set the lat/lon vars
+        @lat = current_forecast["coord"]["lat"]
+        @lon = current_forecast["coord"]["lon"]
+      end
+    end
 
     def by_geocode?
       lat && lon
@@ -114,5 +154,4 @@ class Forecast
         num_slices
       end
     end
-
 end
