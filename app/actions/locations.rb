@@ -2,19 +2,7 @@ require 'json'
 
 helpers do
   def get_clothing(weather)
-    body_parts = Wearable.get_body_parts
-
-    clothes = body_parts.reduce({}) do |a, e|
-      appropriate_clothes = Wearable.get_appropriate_clothing(e, { gender: "M" }, weather)
-      a[e] = appropriate_clothes unless appropriate_clothes.empty?
-      a
-    end
-    extras = body_parts.reduce({}) do |a,e|
-      appropriate_extras = Wearable.need_extras(e, weather)
-      a[e] = appropriate_extras unless appropriate_extras.empty?
-      a
-    end
-    all_items = clothes.merge!(extras)
+    Wearable.get_appropriate_clothing({}, weather)
   end
 end
 
