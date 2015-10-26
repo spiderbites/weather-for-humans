@@ -7,12 +7,14 @@ class Forecast
   OPEN_WEATHER_OPTIONS = { units: "metric", APPID: "66cd0a1a0f9e1272ae428b4f5a9a1e9c" }
   GeoNamesAPI.username = "joshzucker"
 
+  NUM_FORECAST_SLICES_DEFAULT = 4
+
   attr_reader :forecast, :lat, :lon, :city_country, :num_slices, :sunrise, :sunset, :place_name
 
   # initialize a forecast object with the desired number of weather time slices
   # must be between 0 and 40.  if 0, @forecast only contains the current weather.
   # otherwise it is followed by 1-40 future forecasts for every 3 hours
-  def initialize(config, num_slices = 0)
+  def initialize(config, num_slices = NUM_FORECAST_SLICES_DEFAULT)
     @lat = config[:lat]
     @lon = config[:lon]
     @city_country = config[:city_country]
