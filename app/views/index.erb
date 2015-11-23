@@ -1,21 +1,21 @@
-<script>
-  $(document).ready(function() {
-    var BV;
-    $(function() {
-      // initialize BigVideo
-      BV = new $.BigVideo();
-      BV.init();
-      if (Modernizr.touch) {
-        BV.show('/vid/clouds.jpg');
-      } else {
-        BV.show('/vid/clouds.mp4',{ambient:true});
-        BV.getPlayer().on('durationchange',function() {
-          $('#big-video-wrap').fadeIn();
-        });
-      }
-    });
-  });
-</script>
+<!-- <script>
+//   $(document).ready(function() {
+//     var BV;
+//     $(function() {
+//       // initialize BigVideo
+//       BV = new $.BigVideo();
+//       BV.init();
+//       if (Modernizr.touch) {
+//         BV.show('/vid/clouds.jpg');
+//       } else {
+//         BV.show('/vid/clouds.mp4',{ambient:true});
+//         BV.getPlayer().on('durationchange',function() {
+//           $('#big-video-wrap').fadeIn();
+//         });
+//       }
+//     });
+//   });
+// </script> -->
 
 <!-- until i can get bigvideo to show this jpg i'm keeping this here -josh -->
   <style>
@@ -30,6 +30,7 @@
     <h2 class="title">Weather for &nbsp;<span id="humans">Humans</span></h2>
   </section>
 
+  <div class="row">
     <div class="twelve columns">    
 
       <form id="search-bar" action="/location" method="post" enctype="multipart/form-data">
@@ -40,6 +41,35 @@
       </form>
 
     </div>
-
   </div>
+
+  <div class="row credits_title">
+    <div class="twelve columns">
+      <a href="#" id="credits_title">Credits</a>
+    </div>
+  </div>
+  <div class="row credits">
+    <div class="twelve columns">
+      <p>Weather for Humans was originally a midterm project at Lighthouse Labs by <a href="https://github.com/Ajwah" target="_blank">Kevin Johnson</a>, <a href="https://github.com/loborobo" target="_blank">Robynn Lobo</a> and <a href="https://github.com/spiderbites/" target="_blank">Josh Zucker</a>.</p>
+      <p>Our icons are from <a href="https://thenounproject.com/" target="_blank">The Noun Project</a>, in particular, these artists:</p>
+      <div class="artist">Heavy Gloves, Toque - Created by Tamiko Young</div>
+      <div class="artist">Jacket, Parka and Women's Parka - Created by Creative Stall</div>
+      <div class="artist">Light Gloves - Created by Gemma Garner</div>
+      <div class="artist">Longsleeve Shirt, Tank Top and T-shirt - Created by Mourad Mokrane</div>
+      <div class="artist">Pants - Created by Pranav Mote</div>
+      <div class="artist">Rainboots 2 - Created by Claire Jones</div>
+      <div class="artist">Sandals - Created by Stephanie Wauters</div>
+      <div class="artist">Shoes - Created by Simon Child</div>
+      <div class="artist">Shorts - Created by iconoci</div>
+      <div class="artist">Dog Sweater - Created by Виталий Плут</div>
+      <div class="artist">Sweater - Created by James Fenton</div>
+      <div class="artist">Tights - Created by Erika Jasso</div>
+      <div class="artist">Tshirt2 - Created by Nicky Knicky</div>
+      <div class="artist">Winter Boots - Created by Sebastian Langer</div>
+      <div class="artist">Umbrella - Created by Tommy Lau</div>
+      <div class="artist">Sunglasses - Created by Ruben Vh</div>
+    </div>
+  </div>
+  <div class="row">&nbsp;</div>
+
 </div>
