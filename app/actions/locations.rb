@@ -33,17 +33,3 @@ get '/location/:city_country/data' do
     {main: day_set_clothes[0].items.values, extra: day_set_clothes[1].values.flatten}
   end.to_json
 end
-
-get '/location/:city_country' do
-  @city_country = params[:city_country]
-  erb :location
-end
-
-get '/location' do
-  @weather = ForecastWeather.new(params)
-  erb :location
-end
-
-post '/location' do
-  redirect "location/#{params[:city_country]}"
-end
