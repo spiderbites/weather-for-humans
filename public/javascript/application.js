@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  $('#credits_title').click(function() {
+    $('.row.credits').toggle();
+  });
+
   $('#gps_link').click(getLocationAndRedirect);
 
   function getLocationAndRedirect() {
